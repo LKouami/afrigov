@@ -6,7 +6,7 @@ pages_build_output_dir = "./public"
 binding = "DB"
 database_name = "afrigov-db"
 # Remplacez par l'identifiant affiché par : npx wrangler d1 create afrigov-db
-database_id = "REMPLACER-PAR-VOTRE-DATABASE-ID"
+database_id = "abd7484c-6912-47ff-8abf-8ebd665a3313"
 
 # Variables secrètes à définir dans Cloudflare (Settings > Variables and Secrets), jamais ici :
 #   ADMIN_PASSWORD  mot de passe de l'espace admin
