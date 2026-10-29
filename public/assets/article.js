@@ -24,7 +24,9 @@
     if (!article) return;
     var a = article;
     document.title = a.title + ' · AFRIGOV';
-    $('a-kicker').textContent = a.kicker || [AFG.category(a.category), a.country].filter(Boolean).join(' · ');
+    var cat = a.category ? '<a href="/?s=' + encodeURIComponent(a.category) + '">' + AFG.esc(AFG.category(a.category)) + '</a>' : '';
+    $('a-kicker').innerHTML = a.kicker ? AFG.esc(a.kicker) : [cat, AFG.esc(a.country || '')].filter(Boolean).join(' · ');
+    renderMore();
     var meta = [
       a.author ? AFG.t('by') + ' ' + a.author : '',
       a.issue ? AFG.t('issue') + ' ' + a.issue : '',
@@ -69,8 +71,22 @@
       }
       AFG.api(base + '/like').then(setLike).catch(function () {});
       loadComments();
+      AFG.api('/api/articles').then(function (d) { others = d.articles.filter(function (x) { return x.slug !== a.slug; }); renderMore(); }).catch(function () {});
     }
   }).catch(notFound);
+
+  var others = null;
+  function renderMore() {
+    if (!others || !others.length || !article) return;
+    var a = article;
+    var picks = others.slice().sort(function (x, y) { return (y.category === a.category) - (x.category === a.category); }).slice(0, 4);
+    $('more-list').innerHTML = picks.map(function (o) {
+      return '<li><a class="item" href="/a/' + encodeURIComponent(o.slug) + '" lang="' + AFG.esc(o.lang) + '"><div>' +
+        (o.category ? '<p class="kicker">' + AFG.esc(AFG.category(o.category)) + '</p>' : '') +
+        '<h3>' + AFG.esc(o.title) + '</h3><div class="meta"><span>' + AFG.esc(AFG.formatDate(o.published_at)) + '</span></div></div></a></li>';
+    }).join('');
+    $('more').hidden = false;
+  }
 
   function setLike(r) {
     likeState = { likes: r.likes, liked: !!r.liked };

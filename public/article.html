@@ -18,22 +18,24 @@
 </head>
 <body>
 <a class="sr-only" href="#main"><span data-lang="en">Skip to content</span><span data-lang="fr">Aller au contenu</span></a>
-<header class="site-header">
+<div class="topbar">
   <div class="wrap">
-    <a class="wordmark" href="/" aria-label="AFRIGOV"><svg class="mark" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,4 96,96 74,96 50,46 26,96 4,96" fill="currentColor"/><rect x="43" y="64" width="14" height="14" fill="#d99a2b"/></svg>AFRI<span>GOV</span></a>
-    <div class="header-right">
-      <nav class="nav" aria-label="Main">
-        <a href="/"><span data-lang="en">Articles</span><span data-lang="fr">Articles</span></a>
-        <a href="/about"><span data-lang="en">About</span><span data-lang="fr">À propos</span></a>
-        <a href="/#subscribe"><span data-lang="en">Subscribe</span><span data-lang="fr">S'abonner</span></a>
-      </nav>
-      <div class="controls">
-        <button type="button" class="toggle" data-toggle-lang>FR</button>
-        <button type="button" class="toggle" data-toggle-theme aria-label="Theme"></button>
-      </div>
+    <span class="today" data-today></span>
+    <div class="controls">
+      <button type="button" class="toggle" data-toggle-lang>FR</button>
+      <button type="button" class="toggle" data-toggle-theme aria-label="Theme"></button>
     </div>
   </div>
+</div>
+<header class="masthead">
+  <div class="wrap">
+    <a class="wordmark" href="/" aria-label="AFRIGOV"><svg class="mark" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,4 96,96 74,96 50,46 26,96 4,96" fill="currentColor"/><rect x="43" y="64" width="14" height="14" fill="#d99a2b"/></svg><b>AFRI<span>GOV</span></b></a>
+    <a class="btn" href="/#subscribe"><span data-lang="en">Subscribe, it's free</span><span data-lang="fr">S'abonner, c'est gratuit</span></a>
+  </div>
 </header>
+<nav class="sections" aria-label="Sections">
+  <div class="wrap"><ul><li><a href="/" data-section=""><span data-lang="en">Latest</span><span data-lang="fr">À la une</span></a></li><li><a href="/?s=Core%20government%20systems" data-section="Core government systems"><span data-lang="en">Core government systems</span><span data-lang="fr">Systèmes centraux</span></a></li><li><a href="/?s=Public%20service%20delivery" data-section="Public service delivery"><span data-lang="en">Public service delivery</span><span data-lang="fr">Services publics</span></a></li><li><a href="/?s=Citizen%20engagement" data-section="Citizen engagement"><span data-lang="en">Citizen engagement</span><span data-lang="fr">Participation citoyenne</span></a></li><li><a href="/?s=GovTech%20enablers" data-section="GovTech enablers"><span data-lang="en">GovTech enablers</span><span data-lang="fr">Catalyseurs</span></a></li><li><a href="/?s=Infrastructure" data-section="Infrastructure"><span data-lang="en">Infrastructure</span><span data-lang="fr">Infrastructures</span></a></li><li><a href="/?s=Financing" data-section="Financing"><span data-lang="en">Financing</span><span data-lang="fr">Financements</span></a></li><li><a href="/?s=Ecosystem" data-section="Ecosystem"><span data-lang="en">Ecosystem</span><span data-lang="fr">Écosystème</span></a></li></ul></div>
+</nav>
 
 <main id="main" class="wrap">
   <article class="article" id="article" aria-busy="true">
@@ -87,6 +89,11 @@
           <p class="notice" data-msg role="status" hidden></p>
         </div>
       </form>
+
+    <section class="more" id="more" hidden>
+      <h2 class="section-title"><span data-lang="en">More from AFRIGOV</span><span data-lang="fr">À lire aussi</span></h2>
+      <ol class="stream" id="more-list"></ol>
+    </section>
   </article>
 </main>
 <footer class="site-footer">

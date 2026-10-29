@@ -17,6 +17,7 @@
       generic_error: 'Something went wrong. Please try again.',
       all: 'All', issue: 'Issue', views: 'views', likes: 'likes', comments: 'comments',
       no_articles: 'No articles here yet. The first AFRIGOV publication is on its way: subscribe to receive it.',
+      no_articles_title: 'The first edition is on its way', no_section: 'Nothing published in this section yet.', no_popular: 'Rankings will appear after the first publications.',
       load_error: 'Articles could not be loaded. Please refresh the page.',
       by: 'By', min_read: 'min read', draft_preview: 'DRAFT PREVIEW',
       not_found_title: 'Article not found', not_found_text: 'This article does not exist or is no longer published.',
@@ -43,6 +44,7 @@
       generic_error: 'Une erreur est survenue. Merci de réessayer.',
       all: 'Tout', issue: 'Numéro', views: 'vues', likes: 'likes', comments: 'commentaires',
       no_articles: 'Aucun article pour le moment. La première publication d\'AFRIGOV arrive : abonnez-vous pour la recevoir.',
+      no_articles_title: 'La première édition arrive', no_section: 'Rien n\'a encore été publié dans cette rubrique.', no_popular: 'Le classement apparaîtra après les premières publications.',
       load_error: 'Les articles n\'ont pas pu être chargés. Merci de rafraîchir la page.',
       by: 'Par', min_read: 'min de lecture', draft_preview: 'APERÇU DU BROUILLON',
       not_found_title: 'Article introuvable', not_found_text: 'Cet article n\'existe pas ou n\'est plus publié.',
@@ -61,10 +63,10 @@
   };
 
   var CATEGORY_FR = {
-    'Core government systems': 'Systèmes centraux de l\'État',
-    'Public service delivery': 'Services publics en ligne',
+    'Core government systems': 'Systèmes centraux',
+    'Public service delivery': 'Services publics',
     'Citizen engagement': 'Participation citoyenne',
-    'GovTech enablers': 'Catalyseurs GovTech',
+    'GovTech enablers': 'Catalyseurs',
     'Infrastructure': 'Infrastructures',
     'Financing': 'Financements',
     'Ecosystem': 'Écosystème',
@@ -182,6 +184,10 @@
       el.setAttribute('content', el.getAttribute('data-desc-' + lang()));
     });
     document.querySelectorAll('input[name="lang"]').forEach(function (el) { el.value = lang(); });
+    document.querySelectorAll('[data-today]').forEach(function (el) {
+      var d = new Date().toLocaleDateString(lang() === 'fr' ? 'fr-FR' : 'en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+      el.textContent = d.charAt(0).toUpperCase() + d.slice(1);
+    });
     var lb = document.querySelector('[data-toggle-lang]');
     if (lb) {
       lb.textContent = lang() === 'fr' ? 'EN' : 'FR';

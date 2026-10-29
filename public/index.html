@@ -18,32 +18,37 @@
 </head>
 <body>
 <a class="sr-only" href="#main"><span data-lang="en">Skip to content</span><span data-lang="fr">Aller au contenu</span></a>
-<header class="site-header">
+<div class="topbar">
   <div class="wrap">
-    <a class="wordmark" href="/" aria-label="AFRIGOV"><svg class="mark" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,4 96,96 74,96 50,46 26,96 4,96" fill="currentColor"/><rect x="43" y="64" width="14" height="14" fill="#d99a2b"/></svg>AFRI<span>GOV</span></a>
-    <div class="header-right">
-      <nav class="nav" aria-label="Main">
-        <a href="/" aria-current="page"><span data-lang="en">Articles</span><span data-lang="fr">Articles</span></a>
-        <a href="/about"><span data-lang="en">About</span><span data-lang="fr">À propos</span></a>
-        <a href="/#subscribe"><span data-lang="en">Subscribe</span><span data-lang="fr">S'abonner</span></a>
-      </nav>
-      <div class="controls">
-        <button type="button" class="toggle" data-toggle-lang>FR</button>
-        <button type="button" class="toggle" data-toggle-theme aria-label="Theme"></button>
-      </div>
+    <span class="today" data-today></span>
+    <div class="controls">
+      <button type="button" class="toggle" data-toggle-lang>FR</button>
+      <button type="button" class="toggle" data-toggle-theme aria-label="Theme"></button>
     </div>
   </div>
+</div>
+<header class="masthead">
+  <div class="wrap">
+    <a class="wordmark" href="/" aria-label="AFRIGOV"><svg class="mark" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,4 96,96 74,96 50,46 26,96 4,96" fill="currentColor"/><rect x="43" y="64" width="14" height="14" fill="#d99a2b"/></svg><b>AFRI<span>GOV</span></b></a>
+    <a class="btn" href="/#subscribe"><span data-lang="en">Subscribe, it's free</span><span data-lang="fr">S'abonner, c'est gratuit</span></a>
+  </div>
 </header>
+<nav class="sections" aria-label="Sections">
+  <div class="wrap"><ul><li><a href="/" data-section=""><span data-lang="en">Latest</span><span data-lang="fr">À la une</span></a></li><li><a href="/?s=Core%20government%20systems" data-section="Core government systems"><span data-lang="en">Core government systems</span><span data-lang="fr">Systèmes centraux</span></a></li><li><a href="/?s=Public%20service%20delivery" data-section="Public service delivery"><span data-lang="en">Public service delivery</span><span data-lang="fr">Services publics</span></a></li><li><a href="/?s=Citizen%20engagement" data-section="Citizen engagement"><span data-lang="en">Citizen engagement</span><span data-lang="fr">Participation citoyenne</span></a></li><li><a href="/?s=GovTech%20enablers" data-section="GovTech enablers"><span data-lang="en">GovTech enablers</span><span data-lang="fr">Catalyseurs</span></a></li><li><a href="/?s=Infrastructure" data-section="Infrastructure"><span data-lang="en">Infrastructure</span><span data-lang="fr">Infrastructures</span></a></li><li><a href="/?s=Financing" data-section="Financing"><span data-lang="en">Financing</span><span data-lang="fr">Financements</span></a></li><li><a href="/?s=Ecosystem" data-section="Ecosystem"><span data-lang="en">Ecosystem</span><span data-lang="fr">Écosystème</span></a></li></ul></div>
+</nav>
 
-<main id="main">
-  <section class="hero">
-    <div class="wrap hero-grid">
-      <div>
-        <p class="kicker"><span data-lang="en">The review of Africa's digital state</span><span data-lang="fr">La revue de l'État numérique africain</span></p>
-        <h1>AFRI<span>GOV</span></h1>
-        <p class="tagline">e-Gov by Africans</p>
-        <p class="lede"><span data-lang="en">News, data and field notes on digital public services across the 54 countries of Africa, written by practitioners who deliver them.</span><span data-lang="fr">Actualités, données et retours de terrain sur les services publics numériques dans les 54 pays d'Afrique, écrits par les praticiens qui les livrent.</span></p>
-      </div>
+<main id="main" class="wrap">
+  <div class="page-heading" id="page-heading" hidden>
+    <p class="kicker"><span data-lang="en">Section</span><span data-lang="fr">Rubrique</span></p>
+    <h1 id="section-name"></h1>
+  </div>
+  <div class="front">
+    <div>
+      <div id="lead"></div>
+      <h2 class="section-title" id="stream-title"><span data-lang="en">Latest</span><span data-lang="fr">Dernières publications</span></h2>
+      <ol class="stream" id="stream" aria-live="polite"></ol>
+    </div>
+    <aside class="rail">
       <form class="subscribe" id="subscribe" data-subscribe novalidate>
         <h2><span data-lang="en">Get AFRIGOV in your inbox</span><span data-lang="fr">Recevez AFRIGOV par email</span></h2>
         <p><span data-lang="en">Weekly briefs and in-depth reviews. Free. Unsubscribe anytime.</span><span data-lang="fr">Des brèves chaque semaine et des analyses de fond. Gratuit. Désinscription à tout moment.</span></p>
@@ -53,20 +58,22 @@
             <input type="email" id="sub-email" name="email" placeholder="you@example.org" data-ph-en="you@example.org" data-ph-fr="vous@exemple.org" autocomplete="email" required>
             <button type="submit" class="btn"><span data-lang="en">Subscribe</span><span data-lang="fr">S'abonner</span></button>
           </div>
-          <label class="check"><input type="checkbox" id="sub-consent" name="consent" required> <span><span data-lang="en">I agree to receive AFRIGOV by email.</span><span data-lang="fr">J'accepte de recevoir AFRIGOV par email.</span><span data-lang="en"> My email is used only for this and is never shared.</span><span data-lang="fr"> Mon email sert uniquement à cela et n'est jamais partagé.</span> <a href="/privacy"><span data-lang="en">Privacy policy</span><span data-lang="fr">Politique de confidentialité</span></a>.</span></label>
+          <label class="check"><input type="checkbox" id="sub-consent" name="consent" required> <span><span data-lang="en">I agree to receive AFRIGOV by email.</span><span data-lang="fr">J'accepte de recevoir AFRIGOV par email.</span> <a href="/privacy"><span data-lang="en">Privacy policy</span><span data-lang="fr">Politique de confidentialité</span></a>.</span></label>
           <input type="hidden" name="lang" value="en">
           <div class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
           <p class="notice" data-msg role="status" hidden></p>
         </div>
       </form>
-    </div>
-  </section>
-
-  <div class="wrap">
-    <div class="filters" role="group" aria-label="Categories" id="filters"></div>
-    <div class="list" id="list" aria-live="polite">
-      <p class="empty">…</p>
-    </div>
+      <section class="box">
+        <h2 class="section-title"><span data-lang="en">Most read</span><span data-lang="fr">Les plus lus</span></h2>
+        <ol id="popular"></ol>
+      </section>
+      <section class="box">
+        <h2 class="section-title"><span data-lang="en">About AFRIGOV</span><span data-lang="fr">À propos d'AFRIGOV</span></h2>
+        <p><span data-lang="en">The review of Africa's digital state, written by practitioners who deliver public services on the ground, across the 54 countries of the continent.</span><span data-lang="fr">La revue de l'État numérique africain, écrite par des praticiens qui livrent les services publics sur le terrain, dans les 54 pays du continent.</span></p>
+        <p><a href="/about"><span data-lang="en">Our editorial line</span><span data-lang="fr">Notre ligne éditoriale</span></a></p>
+      </section>
+    </aside>
   </div>
 </main>
 <footer class="site-footer">
