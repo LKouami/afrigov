@@ -1,0 +1,13 @@
+name = "afrigov"
+compatibility_date = "2024-09-23"
+pages_build_output_dir = "./public"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "afrigov-db"
+# Remplacez par l'identifiant affiché par : npx wrangler d1 create afrigov-db
+database_id = "REMPLACER-PAR-VOTRE-DATABASE-ID"
+
+# Variables secrètes à définir dans Cloudflare (Settings > Variables and Secrets), jamais ici :
+#   ADMIN_PASSWORD  mot de passe de l'espace admin
+#   SESSION_SECRET  longue chaîne aléatoire pour signer la session admin et saler les empreintes de likes

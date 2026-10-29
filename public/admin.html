@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="fr" data-fixed-lang="1">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>AFRIGOV · Espace admin</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<script src="/assets/prefs.js"></script>
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/config.js"></script>
+<script src="/assets/site.js"></script>
+<script src="/assets/admin.js" defer></script>
+</head>
+<body data-no-consent>
+<header class="site-header">
+  <div class="wrap">
+    <a class="wordmark" href="/" aria-label="Voir le site AFRIGOV"><svg class="mark" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,4 96,96 74,96 50,46 26,96 4,96" fill="currentColor"/><rect x="43" y="64" width="14" height="14" fill="#d99a2b"/></svg>AFRI<span>GOV</span></a>
+    <div class="header-right">
+      <nav class="nav" aria-label="Admin">
+        <span>Espace admin</span>
+        <button type="button" class="linklike" id="logout" hidden>Se déconnecter</button>
+      </nav>
+      <div class="controls"><button type="button" class="toggle" data-toggle-theme aria-label="Thème"></button></div>
+    </div>
+  </div>
+</header>
+
+<main class="wrap admin" id="main">
+  <section id="login-view" hidden>
+    <form class="form" id="login-form" style="max-width:420px">
+      <h1 class="headline">Connexion</h1>
+      <label for="password">Mot de passe <input type="password" id="password" name="password" autocomplete="current-password" required></label>
+      <div class="toolbar"><button class="btn" type="submit">Se connecter</button></div>
+      <p class="notice error" id="login-msg" role="alert" hidden></p>
+    </form>
+  </section>
+
+  <section id="app-view" hidden>
+    <div class="tabs" role="tablist" aria-label="Sections">
+      <button class="tab" role="tab" id="tab-dashboard" aria-controls="panel-dashboard" aria-selected="true" data-tab="dashboard">Tableau de bord</button>
+      <button class="tab" role="tab" id="tab-articles" aria-controls="panel-articles" aria-selected="false" data-tab="articles">Articles</button>
+      <button class="tab" role="tab" id="tab-comments" aria-controls="panel-comments" aria-selected="false" data-tab="comments">Commentaires <span class="badge" id="pending-badge" hidden>0</span></button>
+      <button class="tab" role="tab" id="tab-subscribers" aria-controls="panel-subscribers" aria-selected="false" data-tab="subscribers">Abonnés</button>
+    </div>
+
+    <div id="panel-dashboard" role="tabpanel" aria-labelledby="tab-dashboard">
+      <div class="stats" id="stats"></div>
+      <h2 class="kicker">Vues des 30 derniers jours</h2>
+      <div class="chart" id="chart" role="img" aria-label="Vues par jour sur 30 jours"></div>
+      <div class="chart-labels"><span id="chart-start"></span><span id="chart-end"></span></div>
+      <h2 class="kicker" style="margin-top:40px">Articles les plus lus</h2>
+      <div class="table-wrap"><table><thead><tr><th>Article</th><th>Vues</th><th>Likes</th></tr></thead><tbody id="top"></tbody></table></div>
+    </div>
+
+    <div id="panel-articles" role="tabpanel" aria-labelledby="tab-articles" hidden>
+      <div id="articles-list-view">
+        <div class="toolbar" style="margin-bottom:24px"><button class="btn" type="button" id="new-article">Nouvel article</button></div>
+        <div class="table-wrap"><table><thead><tr><th>Titre</th><th>Statut</th><th>Vues</th><th>Likes</th><th>Commentaires</th><th>Mis à jour</th><th></th></tr></thead><tbody id="articles"></tbody></table></div>
+      </div>
+      <form id="editor-view" class="form" hidden novalidate>
+        <div class="toolbar">
+          <button type="button" class="btn ghost" id="back">← Retour à la liste</button>
+          <span class="status draft" id="ed-status">Brouillon</span>
+        </div>
+        <div class="editor">
+          <div class="form">
+            <label for="ed-title">Titre <input type="text" id="ed-title" name="title" maxlength="200" required></label>
+            <div class="row">
+              <label for="ed-slug">Adresse (slug) <input type="text" id="ed-slug" name="slug" maxlength="80" placeholder="généré depuis le titre"></label>
+              <label for="ed-kicker">Surtitre <input type="text" id="ed-kicker" name="kicker" maxlength="80" placeholder="DELIVERED · TOGO"></label>
+            </div>
+            <label for="ed-lede">Chapô <textarea id="ed-lede" name="lede" maxlength="600" style="min-height:90px"></textarea></label>
+            <div class="row">
+              <label for="ed-category">Catégorie
+                <select id="ed-category" name="category">
+                  <option value="">Aucune</option>
+                  <option>Core government systems</option><option>Public service delivery</option><option>Citizen engagement</option>
+                  <option>GovTech enablers</option><option>Infrastructure</option><option>Financing</option><option>Ecosystem</option>
+                </select>
+              </label>
+              <label for="ed-country">Pays <input type="text" id="ed-country" name="country" maxlength="60"></label>
+            </div>
+            <div class="row">
+              <label for="ed-issue">Numéro de la revue <input type="number" id="ed-issue" name="issue" min="0"></label>
+              <label for="ed-lang">Langue
+                <select id="ed-lang" name="lang"><option value="en">English</option><option value="fr">Français</option></select>
+              </label>
+            </div>
+            <label for="ed-author">Auteur <input type="text" id="ed-author" name="author" maxlength="80"></label>
+            <label for="ed-body">Contenu (Markdown) <textarea id="ed-body" name="body"></textarea></label>
+            <p class="help">## Intertitre · ### Sous-titre · **gras** · *italique* · [lien](https://...) · - liste · &gt; citation · --- séparateur<br>
+              Encadré chiffre clé : <span class="mono">!!! 0,587 | Togo, score GTMI 2025, groupe B</span></p>
+            <div class="toolbar">
+              <button type="button" class="btn ghost" data-save="draft">Enregistrer le brouillon</button>
+              <button type="button" class="btn" data-save="published">Publier</button>
+              <a class="btn ghost" id="ed-preview-link" href="#" target="_blank" rel="noopener" hidden>Voir sur le site</a>
+              <button type="button" class="btn danger" id="ed-delete" hidden>Supprimer</button>
+            </div>
+            <p class="notice" id="ed-msg" role="status" hidden></p>
+          </div>
+          <div>
+            <p class="kicker">Aperçu</p>
+            <div class="preview article" style="padding-block:24px">
+              <p class="kicker" id="pv-kicker"></p>
+              <h1 class="headline" id="pv-title"></h1>
+              <p class="lede" id="pv-lede"></p>
+              <div class="prose" id="pv-body" style="margin-top:24px"></div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div id="panel-comments" role="tabpanel" aria-labelledby="tab-comments" hidden>
+      <div class="filters" role="group" aria-label="Filtrer les commentaires">
+        <button type="button" class="chip" data-cstatus="pending" aria-pressed="true">En attente</button>
+        <button type="button" class="chip" data-cstatus="approved" aria-pressed="false">Publiés</button>
+      </div>
+      <div id="comments-admin"></div>
+    </div>
+
+    <div id="panel-subscribers" role="tabpanel" aria-labelledby="tab-subscribers" hidden>
+      <div class="toolbar" style="margin-bottom:24px">
+        <a class="btn" href="/api/admin/subscribers?format=csv">Exporter en CSV (Brevo, MailerLite)</a>
+        <span class="meta" id="sub-count"></span>
+      </div>
+      <div class="table-wrap"><table><thead><tr><th>Email</th><th>Langue</th><th>Inscrit le</th><th></th></tr></thead><tbody id="subscribers"></tbody></table></div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

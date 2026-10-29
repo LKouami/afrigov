@@ -1,0 +1,359 @@
+// AFRIGOV, script commun : langue, thème, utilitaires, rendu Markdown sûr, consentement cookies, inscription.
+(function () {
+  'use strict';
+  var CONFIG = window.AFRIGOV_CONFIG || {};
+  var root = document.documentElement;
+
+  // ---------- Traductions des textes générés par les scripts ----------
+  var I18N = {
+    en: {
+      consent_title: 'Your privacy',
+      consent_text: 'AFRIGOV uses no advertising and no tracking cookies. With your permission, we measure visits with Cloudflare Web Analytics to understand which articles are useful. View, like and comment counters work without cookies. <a href="/privacy">Read our privacy policy</a>.',
+      consent_legend: 'Choose what you allow',
+      consent_necessary: '<strong>Strictly necessary</strong>: remembers your choices (privacy, language, theme). Always on.',
+      consent_analytics: '<strong>Audience measurement</strong>: anonymous visit statistics (Cloudflare Web Analytics).',
+      accept: 'Accept', refuse: 'Refuse', settings: 'Settings', save_choices: 'Save my choices',
+      sub_ok: 'Thank you. You will receive the next AFRIGOV email.',
+      generic_error: 'Something went wrong. Please try again.',
+      all: 'All', issue: 'Issue', views: 'views', likes: 'likes', comments: 'comments',
+      no_articles: 'No articles here yet. The first AFRIGOV publication is on its way: subscribe to receive it.',
+      load_error: 'Articles could not be loaded. Please refresh the page.',
+      by: 'By', min_read: 'min read', draft_preview: 'DRAFT PREVIEW',
+      not_found_title: 'Article not found', not_found_text: 'This article does not exist or is no longer published.',
+      like: 'Like', liked: 'Liked', link_copied: 'Link copied',
+      comments_title: 'Comments', no_comments: 'No comments yet. Be the first to share your field experience.',
+      comment_ok: 'Thank you. Your comment will appear once it has been reviewed.',
+      to_dark: 'Switch to dark mode', to_light: 'Switch to light mode', to_lang: 'Lire en français',
+      err_invalid_email: 'Please enter a valid email address.',
+      err_consent_required: 'Please tick the box to give your consent.',
+      err_too_fast: 'Please take a moment to write your comment.',
+      err_name_required: 'Please enter your name.',
+      err_empty_comment: 'Your comment is empty.',
+      err_rate_limited: 'Too many comments in a short time. Please try again in a few minutes.',
+      err_not_found: 'This article does not exist or is no longer published.',
+    },
+    fr: {
+      consent_title: 'Votre vie privée',
+      consent_text: 'AFRIGOV n\'utilise ni publicité ni cookies de suivi. Avec votre accord, nous mesurons les visites avec Cloudflare Web Analytics pour savoir quels articles sont utiles. Les compteurs de vues, de likes et de commentaires fonctionnent sans cookie. <a href="/privacy">Lire notre politique de confidentialité</a>.',
+      consent_legend: 'Choisissez ce que vous autorisez',
+      consent_necessary: '<strong>Strictement nécessaire</strong> : mémorise vos choix (confidentialité, langue, thème). Toujours actif.',
+      consent_analytics: '<strong>Mesure d\'audience</strong> : statistiques de visite anonymes (Cloudflare Web Analytics).',
+      accept: 'Accepter', refuse: 'Refuser', settings: 'Paramétrer', save_choices: 'Enregistrer mes choix',
+      sub_ok: 'Merci. Vous recevrez le prochain email d\'AFRIGOV.',
+      generic_error: 'Une erreur est survenue. Merci de réessayer.',
+      all: 'Tout', issue: 'Numéro', views: 'vues', likes: 'likes', comments: 'commentaires',
+      no_articles: 'Aucun article pour le moment. La première publication d\'AFRIGOV arrive : abonnez-vous pour la recevoir.',
+      load_error: 'Les articles n\'ont pas pu être chargés. Merci de rafraîchir la page.',
+      by: 'Par', min_read: 'min de lecture', draft_preview: 'APERÇU DU BROUILLON',
+      not_found_title: 'Article introuvable', not_found_text: 'Cet article n\'existe pas ou n\'est plus publié.',
+      like: 'J\'aime', liked: 'Aimé', link_copied: 'Lien copié',
+      comments_title: 'Commentaires', no_comments: 'Aucun commentaire pour le moment. Soyez le premier à partager votre expérience de terrain.',
+      comment_ok: 'Merci. Votre commentaire apparaîtra après relecture.',
+      to_dark: 'Passer en mode sombre', to_light: 'Passer en mode clair', to_lang: 'Read in English',
+      err_invalid_email: 'Indiquez une adresse email valide.',
+      err_consent_required: 'Cochez la case pour donner votre accord.',
+      err_too_fast: 'Prenez le temps de rédiger votre commentaire.',
+      err_name_required: 'Indiquez votre nom.',
+      err_empty_comment: 'Le commentaire est vide.',
+      err_rate_limited: 'Trop de commentaires en peu de temps. Réessayez dans quelques minutes.',
+      err_not_found: 'Cet article n\'existe pas ou n\'est plus publié.',
+    },
+  };
+
+  var CATEGORY_FR = {
+    'Core government systems': 'Systèmes centraux de l\'État',
+    'Public service delivery': 'Services publics en ligne',
+    'Citizen engagement': 'Participation citoyenne',
+    'GovTech enablers': 'Catalyseurs GovTech',
+    'Infrastructure': 'Infrastructures',
+    'Financing': 'Financements',
+    'Ecosystem': 'Écosystème',
+  };
+
+  function lang() { return root.getAttribute('lang') === 'fr' ? 'fr' : 'en'; }
+  function t(key) { return (I18N[lang()] && I18N[lang()][key]) || I18N.en[key] || key; }
+  function category(c) { return lang() === 'fr' ? CATEGORY_FR[c] || c : c; }
+
+  function esc(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+  }
+
+  function api(path, options) {
+    options = options || {};
+    var init = { method: options.method || 'GET', headers: {}, credentials: 'same-origin' };
+    if (options.body !== undefined) {
+      init.headers['content-type'] = 'application/json';
+      init.body = JSON.stringify(options.body);
+    }
+    return fetch(path, init).then(function (res) {
+      return res.json().catch(function () { return {}; }).then(function (data) {
+        if (!res.ok) {
+          var msg = data.code && I18N.en['err_' + data.code] ? t('err_' + data.code) : data.error || t('generic_error');
+          var err = new Error(msg);
+          err.status = res.status;
+          throw err;
+        }
+        return data;
+      });
+    });
+  }
+
+  function formatDate(iso, l) {
+    if (!iso) return '';
+    var d = new Date(iso.length === 10 ? iso + 'T00:00:00Z' : iso.replace(' ', 'T') + (/[zZ]|[+-]\d\d:?\d\d$/.test(iso) ? '' : 'Z'));
+    if (isNaN(d)) return iso;
+    return d.toLocaleDateString((l || lang()) === 'fr' ? 'fr-FR' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  function readingTime(text) {
+    var words = String(text || '').trim().split(/\s+/).filter(Boolean).length;
+    return Math.max(1, Math.round(words / 220));
+  }
+
+  // ---------- Markdown sûr : tout est échappé avant mise en forme ----------
+  function safeUrl(url) {
+    return /^(https?:\/\/|\/|#|mailto:)/i.test(url) ? url : '#';
+  }
+
+  function inline(text) {
+    var s = esc(text);
+    s = s.replace(/`([^`]+)`/g, '<code>$1</code>');
+    s = s.replace(/!\[([^\]]*)\]\(([^)\s]+)\)/g, function (_, alt, url) {
+      return /^https:\/\//i.test(url) || /^\//.test(url) ? '<img src="' + url + '" alt="' + alt + '" loading="lazy">' : '';
+    });
+    s = s.replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, function (_, label, url) {
+      var u = safeUrl(url);
+      var ext = /^https?:/i.test(u) ? ' target="_blank" rel="noopener noreferrer"' : '';
+      return '<a href="' + u + '"' + ext + '>' + label + '</a>';
+    });
+    s = s.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+    s = s.replace(/(^|[^*])\*([^*\s][^*]*)\*/g, '$1<em>$2</em>');
+    s = s.replace(/(^|\W)_([^_\s][^_]*)_(?=\W|$)/g, '$1<em>$2</em>');
+    return s;
+  }
+
+  function markdown(md) {
+    var lines = String(md || '').replace(/\r\n?/g, '\n').split('\n');
+    var out = [];
+    var para = [];
+    var list = null;
+    var quote = [];
+
+    function flushPara() { if (para.length) { out.push('<p>' + inline(para.join(' ')) + '</p>'); para = []; } }
+    function flushList() { if (list) { out.push('<' + list.tag + '>' + list.items.map(function (i) { return '<li>' + inline(i) + '</li>'; }).join('') + '</' + list.tag + '>'); list = null; } }
+    function flushQuote() { if (quote.length) { out.push('<blockquote><p>' + inline(quote.join(' ')) + '</p></blockquote>'); quote = []; } }
+    function flushAll() { flushPara(); flushList(); flushQuote(); }
+
+    lines.forEach(function (raw) {
+      var line = raw.replace(/\s+$/, '');
+      var m;
+      if (!line.trim()) { flushAll(); return; }
+      if ((m = line.match(/^(#{2,3})\s+(.*)$/))) { flushAll(); var tag = m[1].length === 2 ? 'h2' : 'h3'; out.push('<' + tag + '>' + inline(m[2]) + '</' + tag + '>'); return; }
+      if (/^---+$/.test(line.trim())) { flushAll(); out.push('<hr>'); return; }
+      if ((m = line.match(/^!!!\s+(.*)$/))) {
+        flushAll();
+        var parts = m[1].split('|');
+        out.push('<div class="figure"><strong>' + esc(parts[0].trim()) + '</strong>' + (parts[1] ? '<span>' + inline(parts.slice(1).join('|').trim()) + '</span>' : '') + '</div>');
+        return;
+      }
+      if ((m = line.match(/^>\s?(.*)$/))) { flushPara(); flushList(); quote.push(m[1]); return; }
+      if ((m = line.match(/^[-*]\s+(.*)$/))) { flushPara(); flushQuote(); if (!list || list.tag !== 'ul') { flushList(); list = { tag: 'ul', items: [] }; } list.items.push(m[1]); return; }
+      if ((m = line.match(/^\d+[.)]\s+(.*)$/))) { flushPara(); flushQuote(); if (!list || list.tag !== 'ol') { flushList(); list = { tag: 'ol', items: [] }; } list.items.push(m[1]); return; }
+      flushList(); flushQuote(); para.push(line.trim());
+    });
+    flushAll();
+    return out.join('\n');
+  }
+
+  // ---------- Langue ----------
+  var langListeners = [];
+  function onLangChange(fn) { langListeners.push(fn); }
+
+  function applyAttributes() {
+    document.querySelectorAll('[data-ph-en]').forEach(function (el) {
+      el.setAttribute('placeholder', el.getAttribute('data-ph-' + lang()));
+    });
+    document.querySelectorAll('[data-title-en]').forEach(function (el) {
+      if (el.hasAttribute('data-title-' + lang())) document.title = el.getAttribute('data-title-' + lang());
+    });
+    document.querySelectorAll('[data-desc-en]').forEach(function (el) {
+      el.setAttribute('content', el.getAttribute('data-desc-' + lang()));
+    });
+    document.querySelectorAll('input[name="lang"]').forEach(function (el) { el.value = lang(); });
+    var lb = document.querySelector('[data-toggle-lang]');
+    if (lb) {
+      lb.textContent = lang() === 'fr' ? 'EN' : 'FR';
+      lb.setAttribute('aria-label', t('to_lang'));
+      lb.setAttribute('lang', lang() === 'fr' ? 'en' : 'fr');
+    }
+  }
+
+  function setLang(l) {
+    root.setAttribute('lang', l);
+    try { localStorage.setItem('afg_lang', l); } catch (e) {}
+    applyAttributes();
+    updateThemeButton();
+    if (banner) openBanner(!banner.querySelector('#consent-settings').hidden);
+    langListeners.forEach(function (fn) { fn(l); });
+  }
+
+  // ---------- Thème clair / sombre ----------
+  var SUN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+  var MOON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
+
+  function isDark() {
+    var forced = root.getAttribute('data-theme');
+    if (forced) return forced === 'dark';
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  }
+
+  function updateThemeButton() {
+    var b = document.querySelector('[data-toggle-theme]');
+    if (!b) return;
+    var dark = isDark();
+    b.innerHTML = dark ? SUN : MOON;
+    b.setAttribute('aria-label', dark ? t('to_light') : t('to_dark'));
+    b.setAttribute('title', dark ? t('to_light') : t('to_dark'));
+  }
+
+  function toggleTheme() {
+    var next = isDark() ? 'light' : 'dark';
+    root.setAttribute('data-theme', next);
+    try { localStorage.setItem('afg_theme', next); } catch (e) {}
+    updateThemeButton();
+  }
+
+  // ---------- Consentement cookies ----------
+  var CONSENT_KEY = 'afg_consent';
+
+  function getConsent() {
+    try {
+      var c = JSON.parse(localStorage.getItem(CONSENT_KEY) || 'null');
+      if (c && c.v === (CONFIG.consentVersion || 1)) return c;
+    } catch (e) {}
+    return null;
+  }
+
+  function saveConsent(analytics) {
+    var previous = getConsent();
+    var c = { v: CONFIG.consentVersion || 1, analytics: !!analytics, at: new Date().toISOString() };
+    try { localStorage.setItem(CONSENT_KEY, JSON.stringify(c)); } catch (e) {}
+    closeBanner();
+    if (previous && previous.analytics && !c.analytics) { location.reload(); return; }
+    applyConsent(c);
+  }
+
+  var analyticsLoaded = false;
+  function applyConsent(c) {
+    if (!c || !c.analytics || analyticsLoaded || !CONFIG.cfAnalyticsToken) return;
+    var s = document.createElement('script');
+    s.defer = true;
+    s.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+    s.setAttribute('data-cf-beacon', JSON.stringify({ token: CONFIG.cfAnalyticsToken }));
+    document.head.appendChild(s);
+    analyticsLoaded = true;
+  }
+
+  var banner = null;
+  function closeBanner() { if (banner) { banner.remove(); banner = null; } }
+
+  function openBanner(showSettings) {
+    var current = getConsent();
+    var wasChecked = banner && banner.querySelector('#consent-analytics') ? banner.querySelector('#consent-analytics').checked : current && current.analytics;
+    closeBanner();
+    banner = document.createElement('section');
+    banner.className = 'consent';
+    banner.setAttribute('role', 'dialog');
+    banner.setAttribute('aria-labelledby', 'consent-title');
+    banner.innerHTML =
+      '<div class="consent-inner">' +
+      '<h2 id="consent-title">' + t('consent_title') + '</h2>' +
+      '<p>' + t('consent_text') + '</p>' +
+      '<fieldset id="consent-settings"' + (showSettings ? '' : ' hidden') + '>' +
+      '<legend>' + t('consent_legend') + '</legend>' +
+      '<label class="check"><input type="checkbox" checked disabled> <span>' + t('consent_necessary') + '</span></label>' +
+      '<label class="check"><input type="checkbox" id="consent-analytics"' + (wasChecked ? ' checked' : '') + '> <span>' + t('consent_analytics') + '</span></label>' +
+      '</fieldset>' +
+      '<div class="buttons">' +
+      '<button type="button" class="btn" data-c="accept">' + t('accept') + '</button>' +
+      '<button type="button" class="btn ghost" data-c="refuse">' + t('refuse') + '</button>' +
+      '<button type="button" class="btn ghost" data-c="settings">' + (showSettings ? t('save_choices') : t('settings')) + '</button>' +
+      '</div></div>';
+    document.body.appendChild(banner);
+    banner.addEventListener('click', function (e) {
+      var b = e.target.closest('[data-c]');
+      if (!b) return;
+      var action = b.getAttribute('data-c');
+      if (action === 'accept') saveConsent(true);
+      else if (action === 'refuse') saveConsent(false);
+      else if (action === 'settings') {
+        var fs = banner.querySelector('#consent-settings');
+        if (fs.hidden) { fs.hidden = false; b.textContent = t('save_choices'); }
+        else saveConsent(banner.querySelector('#consent-analytics').checked);
+      }
+    });
+  }
+
+  // ---------- Inscription ----------
+  function bindSubscribe(form) {
+    var started = Date.now();
+    var el = function (n) { return form.elements.namedItem(n); };
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var msg = form.querySelector('[data-msg]');
+      var btn = form.querySelector('button[type="submit"]');
+      msg.hidden = true;
+      msg.className = 'notice';
+      btn.disabled = true;
+      api('/api/subscribe', {
+        method: 'POST',
+        body: {
+          email: el('email').value,
+          consent: el('consent').checked,
+          lang: lang(),
+          website: el('website').value,
+          elapsed: Date.now() - started,
+        },
+      }).then(function () {
+        msg.textContent = t('sub_ok');
+        msg.hidden = false;
+        form.reset();
+      }).catch(function (err) {
+        msg.textContent = err.message;
+        msg.className = 'notice error';
+        msg.hidden = false;
+      }).then(function () { btn.disabled = false; });
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', function () {
+    applyAttributes();
+    updateThemeButton();
+    if (window.matchMedia) {
+      var mq = window.matchMedia('(prefers-color-scheme: dark)');
+      if (mq.addEventListener) mq.addEventListener('change', updateThemeButton);
+    }
+    var lb = document.querySelector('[data-toggle-lang]');
+    if (lb) lb.addEventListener('click', function () { setLang(lang() === 'fr' ? 'en' : 'fr'); });
+    var tb = document.querySelector('[data-toggle-theme]');
+    if (tb) tb.addEventListener('click', toggleTheme);
+
+    var c = getConsent();
+    if (c) applyConsent(c); else if (!document.body.hasAttribute('data-no-consent')) openBanner(false);
+    document.querySelectorAll('[data-open-consent]').forEach(function (b) {
+      b.addEventListener('click', function () { openBanner(true); });
+    });
+    document.querySelectorAll('form[data-subscribe]').forEach(bindSubscribe);
+    document.querySelectorAll('[data-contact]').forEach(function (el) {
+      el.textContent = CONFIG.contactEmail || '';
+    });
+    document.querySelectorAll('[data-year]').forEach(function (y) { y.textContent = new Date().getFullYear(); });
+  });
+
+  window.AFG = {
+    esc: esc, api: api, markdown: markdown, formatDate: formatDate, readingTime: readingTime,
+    openConsent: openBanner, t: t, lang: lang, category: category, onLangChange: onLangChange,
+  };
+})();

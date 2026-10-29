@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title data-title-en="AFRIGOV" data-title-fr="AFRIGOV">AFRIGOV</title>
+<meta name="description" content="AFRIGOV, the review of Africa's digital state." data-desc-en="AFRIGOV, the review of Africa's digital state." data-desc-fr="AFRIGOV, la revue de l'État numérique africain.">
+<meta property="og:title" content="AFRIGOV">
+<meta property="og:description" content="AFRIGOV, the review of Africa's digital state.">
+<meta property="og:type" content="website">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="/fonts/schibsted-grotesk-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+<script src="/assets/prefs.js"></script>
+<link rel="stylesheet" href="/assets/site.css">
+<script src="/assets/config.js"></script>
+<script src="/assets/site.js"></script>
+<script src="/assets/article.js" defer></script>
+</head>
+<body>
+<a class="sr-only" href="#main"><span data-lang="en">Skip to content</span><span data-lang="fr">Aller au contenu</span></a>
+<header class="site-header">
+  <div class="wrap">
+    <a class="wordmark" href="/" aria-label="AFRIGOV"><svg class="mark" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,4 96,96 74,96 50,46 26,96 4,96" fill="currentColor"/><rect x="43" y="64" width="14" height="14" fill="#d99a2b"/></svg>AFRI<span>GOV</span></a>
+    <div class="header-right">
+      <nav class="nav" aria-label="Main">
+        <a href="/"><span data-lang="en">Articles</span><span data-lang="fr">Articles</span></a>
+        <a href="/about"><span data-lang="en">About</span><span data-lang="fr">À propos</span></a>
+        <a href="/#subscribe"><span data-lang="en">Subscribe</span><span data-lang="fr">S'abonner</span></a>
+      </nav>
+      <div class="controls">
+        <button type="button" class="toggle" data-toggle-lang>FR</button>
+        <button type="button" class="toggle" data-toggle-theme aria-label="Theme"></button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main id="main" class="wrap">
+  <article class="article" id="article" aria-busy="true">
+    <header id="a-header">
+      <p class="kicker" id="a-kicker"></p>
+      <h1 class="headline" id="a-title">…</h1>
+      <p class="lede" id="a-lede"></p>
+      <div class="meta" id="a-meta"></div>
+    </header>
+    <div class="prose" id="a-body"></div>
+
+    <div class="actions" id="a-actions" hidden>
+      <button type="button" class="btn ghost like" id="like" aria-pressed="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.7 4.5c2.2 0 3.6 1.2 5.3 3.2 1.7-2 3.1-3.2 5.3-3.2 3.7 0 5.8 3.9 4.3 7.3C19.5 16.4 12 21 12 21z"/></svg>
+        <span id="like-label"></span> · <span class="mono" id="like-count">0</span>
+      </button>
+      <span class="meta"><span><span class="mono" id="view-count">0</span> <span id="views-label"></span></span></span>
+      <button type="button" class="btn ghost" id="share"><span data-lang="en">Copy link</span><span data-lang="fr">Copier le lien</span></button>
+      <span class="meta" id="share-msg" role="status"></span>
+    </div>
+
+    <section class="comments" id="comments" aria-labelledby="comments-title" hidden>
+      <h2 id="comments-title"></h2>
+      <div id="comment-list"></div>
+      <form class="form" id="comment-form" novalidate>
+        <h3 class="kicker"><span data-lang="en">Add a comment</span><span data-lang="fr">Ajouter un commentaire</span></h3>
+        <div class="row">
+          <label for="c-name"><span data-lang="en">Name</span><span data-lang="fr">Nom</span> <input type="text" id="c-name" name="name" maxlength="60" autocomplete="name" required></label>
+          <label for="c-email"><span data-lang="en">Email (never published)</span><span data-lang="fr">Email (jamais publié)</span> <input type="email" id="c-email" name="email" maxlength="254" autocomplete="email" required></label>
+        </div>
+        <label for="c-body"><span data-lang="en">Comment</span><span data-lang="fr">Commentaire</span> <textarea id="c-body" name="body" maxlength="2000" required></textarea></label>
+        <label class="check"><input type="checkbox" id="c-consent" name="consent" required> <span><span data-lang="en">I agree that AFRIGOV stores my name, email and comment to moderate and publish it. My email is never shown.</span><span data-lang="fr">J'accepte qu'AFRIGOV conserve mon nom, mon email et mon commentaire pour le modérer et le publier. Mon email n'est jamais affiché.</span> <a href="/privacy"><span data-lang="en">Privacy policy</span><span data-lang="fr">Politique de confidentialité</span></a>.</span></label>
+        <div class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+        <div class="toolbar"><button type="submit" class="btn"><span data-lang="en">Send comment</span><span data-lang="fr">Envoyer le commentaire</span></button></div>
+        <p class="notice" id="c-msg" role="status" hidden></p>
+      </form>
+    </section>
+
+    <form class="subscribe" id="subscribe" data-subscribe novalidate>
+        <h2><span data-lang="en">Get AFRIGOV in your inbox</span><span data-lang="fr">Recevez AFRIGOV par email</span></h2>
+        <p><span data-lang="en">Weekly briefs and in-depth reviews. Free. Unsubscribe anytime.</span><span data-lang="fr">Des brèves chaque semaine et des analyses de fond. Gratuit. Désinscription à tout moment.</span></p>
+        <div class="form">
+          <div class="inline">
+            <label class="sr-only" for="sub-email">Email</label>
+            <input type="email" id="sub-email" name="email" placeholder="you@example.org" data-ph-en="you@example.org" data-ph-fr="vous@exemple.org" autocomplete="email" required>
+            <button type="submit" class="btn"><span data-lang="en">Subscribe</span><span data-lang="fr">S'abonner</span></button>
+          </div>
+          <label class="check"><input type="checkbox" id="sub-consent" name="consent" required> <span><span data-lang="en">I agree to receive AFRIGOV by email.</span><span data-lang="fr">J'accepte de recevoir AFRIGOV par email.</span> <a href="/privacy"><span data-lang="en">Privacy policy</span><span data-lang="fr">Politique de confidentialité</span></a>.</span></label>
+          <input type="hidden" name="lang" value="en">
+          <div class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+          <p class="notice" data-msg role="status" hidden></p>
+        </div>
+      </form>
+  </article>
+</main>
+<footer class="site-footer">
+  <div class="wrap">
+    <span>© <span data-year></span> AFRIGOV · <span data-contact></span></span>
+    <nav aria-label="Footer">
+      <a href="/about"><span data-lang="en">About</span><span data-lang="fr">À propos</span></a>
+      <a href="/privacy"><span data-lang="en">Privacy</span><span data-lang="fr">Confidentialité</span></a>
+      <button type="button" class="linklike" data-open-consent><span data-lang="en">Cookie settings</span><span data-lang="fr">Gérer les cookies</span></button>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>
