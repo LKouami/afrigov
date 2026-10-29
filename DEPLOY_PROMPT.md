@@ -10,8 +10,8 @@ Règles :
 2. Connecte wrangler à mon compte : `npx wrangler login` (je validerai dans le navigateur), puis `npx wrangler whoami`.
 3. Crée la base : `npx wrangler d1 create afrigov-db`. Reporte le `database_id` obtenu dans `wrangler.toml` à la place de `REMPLACER-PAR-VOTRE-DATABASE-ID`. Si la base existe déjà, récupère son identifiant avec `npx wrangler d1 list`.
 4. Crée les tables : `npx wrangler d1 execute afrigov-db --remote --file=schema.sql`.
-5. Mets à jour le dépôt GitHub avec le `database_id` (commit "Configure la base D1") et pousse sur la branche main.
-6. Crée le projet Pages relié au dépôt GitHub pour que chaque push redéploie le site. Cette étape se fait dans le tableau de bord Cloudflare : guide-moi pas à pas (Workers & Pages > Create > Pages > Connect to Git > choisir le dépôt afrigov, branche main, framework None, commande de build vide, dossier de sortie `public`). Le fichier wrangler.toml fournit la liaison D1 `DB`.
+5. Mets à jour le dépôt GitHub LKouami/afrigov avec le `database_id` : `git pull`, puis commit "Configure la base D1" et push sur la branche main.
+6. Crée le projet Pages relié au dépôt GitHub pour que chaque push redéploie le site. Cette étape se fait dans le tableau de bord Cloudflare : guide-moi pas à pas (Workers & Pages > Create > Pages > Connect to Git > choisir le dépôt LKouami/afrigov, branche main, framework None, commande de build vide, dossier de sortie `public`). Le fichier wrangler.toml fournit la liaison D1 `DB`.
    Si je préfère ne pas relier GitHub, fais à la place : `npx wrangler pages project create afrigov --production-branch=main` puis `npx wrangler pages deploy`.
 7. Définis les secrets de production. Génère SESSION_SECRET avec `openssl rand -hex 32` (ou `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`), et demande-moi de taper moi-même ADMIN_PASSWORD :
    `npx wrangler pages secret put SESSION_SECRET --project-name=afrigov`
