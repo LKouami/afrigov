@@ -20,10 +20,11 @@ Règles :
 8. Branche le domaine : guide-moi dans le tableau de bord (Workers & Pages > afrigov > Custom domains > Set up a custom domain > `afrigov.news`, puis aussi `www.afrigov.news`). Attends que le certificat soit actif.
 9. Crée l'adresse contact@afrigov.news : guide-moi dans le tableau de bord (afrigov.news > Email > Email Routing > activer, puis une règle contact@afrigov.news vers mon adresse Gmail, que je te donnerai).
 10. Teste le site en ligne et fais-moi un compte rendu :
-    - `https://afrigov.news` s'affiche, le bandeau cookies apparaît, les boutons FR/EN et clair/sombre fonctionnent ;
+    - `https://afrigov.news` s'affiche, le bandeau cookies apparaît, le sélecteur FR / EN fonctionne, la recherche affiche les articles pendant la saisie ;
+    - `https://afrigov.news/sitemap.xml` et `https://afrigov.news/robots.txt` répondent ;
     - `https://afrigov.news/api/articles` répond `{"articles":[]}` ;
     - `https://afrigov.news/admin` affiche la connexion ; je me connecte et je publie un article de test ;
-    - l'article s'ouvre sur `/a/<adresse>`, le compteur de vues augmente, le like fonctionne, un commentaire de test arrive en attente dans l'admin ;
+    - l'article s'ouvre sur `/a/<adresse>` et son titre apparaît dans le code source de la page (rendu serveur), le compteur de vues augmente, le like fonctionne, un commentaire de test arrive en attente dans l'admin ;
     - l'inscription à la newsletter apparaît dans l'onglet Abonnés.
     Ensuite, propose-moi de supprimer l'article de test.
 11. Termine par la liste de ce qu'il me reste à faire : compléter `public/privacy.html` et `public/about.html`, et ajouter le jeton Cloudflare Web Analytics dans `public/assets/config.js` si je veux la mesure d'audience.

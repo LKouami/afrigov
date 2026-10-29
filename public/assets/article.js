@@ -20,22 +20,21 @@
       $('a-section').textContent = '';
       $('a-title').textContent = AFG.t('no_articles_title');
       $('a-byline').textContent = '';
-      $('a-body').innerHTML = '<p>' + AFG.esc(AFG.t('welcome_text')) + '</p><p><a href="#subscribe">' + AFG.esc(AFG.lang() === 'fr' ? 'S\'abonner' : 'Subscribe') + '</a></p>';
+      $('a-body').innerHTML = '<p>' + AFG.esc(AFG.t('welcome_text')) + '</p>';
       return;
     }
     if (state === 'notfound') {
       $('a-title').textContent = AFG.t('not_found_title');
       $('a-body').innerHTML = '<p>' + AFG.esc(AFG.t('not_found_text')) + '</p>';
-      document.title = AFG.t('not_found_title') + ' · AFRIGOV';
+      document.title = AFG.t('not_found_title') + ' | AFRIGOV';
       return;
     }
     if (!article) return;
     var a = article;
-    if (!isHome) document.title = a.title + ' · AFRIGOV';
+    if (!isHome) document.title = a.title + ' | AFRIGOV';
     var link = '/a/' + encodeURIComponent(a.slug);
     $('a-title').innerHTML = isHome ? '<a href="' + link + '">' + AFG.esc(a.title) + '</a>' : AFG.esc(a.title);
-    var section = a.category ? '<a href="/archive?s=' + encodeURIComponent(a.category) + '">' + AFG.esc(AFG.category(a.category)) + '</a>' : '';
-    $('a-section').innerHTML = a.kicker ? AFG.esc(a.kicker) : [section, AFG.esc(a.country || '')].filter(Boolean).join(' · ');
+    $('a-section').textContent = a.kicker || [AFG.category(a.category), a.country].filter(Boolean).join(' · ');
     var by = [
       AFG.formatDate(a.published_at),
       a.author ? AFG.t('by') + ' ' + a.author : '',

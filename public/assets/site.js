@@ -8,16 +8,16 @@
   var I18N = {
     en: {
       consent_title: 'Your privacy',
-      consent_text: 'AFRIGOV uses no advertising and no tracking cookies. With your permission, we measure visits with Cloudflare Web Analytics to understand which articles are useful. View, like and comment counters work without cookies. <a href="/privacy">Read our privacy policy</a>.',
+      consent_text: 'No advertising, no tracking cookies. With your permission, we count visits with Cloudflare Web Analytics to see which articles are useful. Views, likes and comments work without cookies. <a href="/privacy">Privacy policy</a>.',
       consent_legend: 'Choose what you allow',
       consent_necessary: '<strong>Strictly necessary</strong>: remembers your choices (privacy, language). Always on.',
       consent_analytics: '<strong>Audience measurement</strong>: anonymous visit statistics (Cloudflare Web Analytics).',
       accept: 'Accept', refuse: 'Refuse', settings: 'Settings', save_choices: 'Save my choices',
-      sub_ok: 'Thank you. You will receive the next AFRIGOV email.',
+      sub_ok: 'Thank you. You will get the next article by email.',
       generic_error: 'Something went wrong. Please try again.',
       all: 'All', issue: 'Issue', views: 'views', likes: 'likes', comments: 'comments',
-      no_articles: 'No articles here yet. The first AFRIGOV publication is on its way: subscribe to receive it.',
-      no_articles_title: 'The first edition is on its way', welcome_text: 'AFRIGOV is the review of Africa\'s digital state, written by practitioners who deliver public services on the ground. The first articles are being written. Subscribe to receive them as soon as they are published.', no_results: 'No article matches your search.', results_for: 'Results for', permalink: 'Permalink', no_section: 'Nothing published in this section yet.', no_popular: 'Rankings will appear after the first publications.',
+      no_articles: 'No articles yet.',
+      no_articles_title: 'First articles coming soon', welcome_text: 'We write about digital public services in Africa: what works, what fails, and why. The first articles are being written. Subscribe to get them by email.', no_results: 'No article matches your search.', results_for: 'Results for', permalink: 'Permalink', no_section: 'Nothing published in this section yet.', no_popular: 'Nothing published yet.',
       load_error: 'Articles could not be loaded. Please refresh the page.',
       by: 'By', min_read: 'min read', draft_preview: 'DRAFT PREVIEW',
       not_found_title: 'Article not found', not_found_text: 'This article does not exist or is no longer published.',
@@ -35,16 +35,16 @@
     },
     fr: {
       consent_title: 'Votre vie privée',
-      consent_text: 'AFRIGOV n\'utilise ni publicité ni cookies de suivi. Avec votre accord, nous mesurons les visites avec Cloudflare Web Analytics pour savoir quels articles sont utiles. Les compteurs de vues, de likes et de commentaires fonctionnent sans cookie. <a href="/privacy">Lire notre politique de confidentialité</a>.',
+      consent_text: 'Pas de publicité, pas de cookies de suivi. Avec votre accord, nous comptons les visites avec Cloudflare Web Analytics pour savoir quels articles sont utiles. Vues, likes et commentaires fonctionnent sans cookie. <a href="/privacy">Politique de confidentialité</a>.',
       consent_legend: 'Choisissez ce que vous autorisez',
       consent_necessary: '<strong>Strictement nécessaire</strong> : mémorise vos choix (confidentialité, langue). Toujours actif.',
       consent_analytics: '<strong>Mesure d\'audience</strong> : statistiques de visite anonymes (Cloudflare Web Analytics).',
       accept: 'Accepter', refuse: 'Refuser', settings: 'Paramétrer', save_choices: 'Enregistrer mes choix',
-      sub_ok: 'Merci. Vous recevrez le prochain email d\'AFRIGOV.',
+      sub_ok: 'Merci. Vous recevrez le prochain article par email.',
       generic_error: 'Une erreur est survenue. Merci de réessayer.',
       all: 'Tout', issue: 'Numéro', views: 'vues', likes: 'likes', comments: 'commentaires',
-      no_articles: 'Aucun article pour le moment. La première publication d\'AFRIGOV arrive : abonnez-vous pour la recevoir.',
-      no_articles_title: 'La première édition arrive', welcome_text: 'AFRIGOV est la revue de l\'État numérique africain, écrite par des praticiens qui livrent les services publics sur le terrain. Les premiers articles sont en cours d\'écriture. Abonnez-vous pour les recevoir dès leur publication.', no_results: 'Aucun article ne correspond à votre recherche.', results_for: 'Résultats pour', permalink: 'Lien permanent', no_section: 'Rien n\'a encore été publié dans cette rubrique.', no_popular: 'Le classement apparaîtra après les premières publications.',
+      no_articles: 'Aucun article pour le moment.',
+      no_articles_title: 'Premiers articles très bientôt', welcome_text: 'Nous écrivons sur les services publics numériques en Afrique : ce qui marche, ce qui échoue, et pourquoi. Les premiers articles sont en cours d\'écriture. Abonnez-vous pour les recevoir par email.', no_results: 'Aucun article ne correspond à votre recherche.', results_for: 'Résultats pour', permalink: 'Lien permanent', no_section: 'Rien n\'a encore été publié dans cette rubrique.', no_popular: 'Rien de publié pour le moment.',
       load_error: 'Les articles n\'ont pas pu être chargés. Merci de rafraîchir la page.',
       by: 'Par', min_read: 'min de lecture', draft_preview: 'APERÇU DU BROUILLON',
       not_found_title: 'Article introuvable', not_found_text: 'Cet article n\'existe pas ou n\'est plus publié.',
@@ -154,12 +154,6 @@
       if (!line.trim()) { flushAll(); return; }
       if ((m = line.match(/^(#{2,3})\s+(.*)$/))) { flushAll(); var tag = m[1].length === 2 ? 'h2' : 'h3'; out.push('<' + tag + '>' + inline(m[2]) + '</' + tag + '>'); return; }
       if (/^---+$/.test(line.trim())) { flushAll(); out.push('<hr>'); return; }
-      if ((m = line.match(/^!!!\s+(.*)$/))) {
-        flushAll();
-        var parts = m[1].split('|');
-        out.push('<div class="figure"><strong>' + esc(parts[0].trim()) + '</strong>' + (parts[1] ? '<span>' + inline(parts.slice(1).join('|').trim()) + '</span>' : '') + '</div>');
-        return;
-      }
       if ((m = line.match(/^>\s?(.*)$/))) { flushPara(); flushList(); quote.push(m[1]); return; }
       if ((m = line.match(/^[-*]\s+(.*)$/))) { flushPara(); flushQuote(); if (!list || list.tag !== 'ul') { flushList(); list = { tag: 'ul', items: [] }; } list.items.push(m[1]); return; }
       if ((m = line.match(/^\d+[.)]\s+(.*)$/))) { flushPara(); flushQuote(); if (!list || list.tag !== 'ol') { flushList(); list = { tag: 'ol', items: [] }; } list.items.push(m[1]); return; }
