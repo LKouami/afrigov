@@ -4,7 +4,9 @@ Site de la revue AFRIGOV, e-Gov by Africans. Il tourne gratuitement sur Cloudfla
 
 ## Ce que fait le site
 
-- Accueil avec la liste des articles et un filtre par catégorie (les 7 catégories de veille).
+- Site bilingue anglais et français, avec un sélecteur FR / EN discret dans l'en-tête.
+- Accueil façon carnet de lecture : le dernier texte publié s'affiche en entier, avec une colonne latérale (abonnement, recherche, derniers textes, rubriques).
+- Page Archives avec recherche et filtre par rubrique (les 7 catégories de veille).
 - Page article avec compteur de vues, bouton « J'aime », copie du lien et commentaires.
 - Commentaires avec nom et email, publiés seulement après validation dans l'espace admin. Anti-spam : champ piège et délai minimum.
 - Inscription à la newsletter, avec consentement. Export CSV des abonnés pour Brevo ou MailerLite.

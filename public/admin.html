@@ -13,13 +13,12 @@
 <script src="/assets/admin.js" defer></script>
 </head>
 <body data-no-consent>
-<header class="masthead" style="border-bottom:3px solid var(--ink)">
+<header class="admin-head">
   <div class="wrap">
     <a class="wordmark" href="/" aria-label="Voir le site AFRIGOV"><svg class="mark" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,4 96,96 74,96 50,46 26,96 4,96" fill="currentColor"/><rect x="43" y="64" width="14" height="14" fill="#d99a2b"/></svg><b>AFRI<span>GOV</span></b></a>
-    <div class="controls">
+    <div class="toolbar">
       <span class="meta">Espace admin</span>
       <button type="button" class="linklike" id="logout" hidden>Se déconnecter</button>
-      <button type="button" class="toggle" data-toggle-theme aria-label="Thème"></button>
     </div>
   </div>
 </header>
@@ -100,8 +99,8 @@
           <div>
             <p class="kicker">Aperçu</p>
             <div class="preview article" style="padding-block:24px">
-              <p class="kicker" id="pv-kicker"></p>
-              <h1 class="headline" id="pv-title"></h1>
+              <p class="section-tag" id="pv-kicker"></p>
+              <h1 class="article-title" id="pv-title"></h1>
               <p class="lede" id="pv-lede"></p>
               <div class="prose" id="pv-body" style="margin-top:24px"></div>
             </div>

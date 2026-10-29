@@ -9,52 +9,88 @@
 <meta property="og:description" content="AFRIGOV is the review of Africa's digital state, written by practitioners.">
 <meta property="og:type" content="website">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="preload" href="/fonts/schibsted-grotesk-latin-800-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/fira-sans-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
 <script src="/assets/prefs.js"></script>
 <link rel="stylesheet" href="/assets/site.css">
 <script src="/assets/config.js"></script>
 <script src="/assets/site.js"></script>
+<script src="/assets/side.js" defer></script>
 </head>
 <body>
 <a class="sr-only" href="#main"><span data-lang="en">Skip to content</span><span data-lang="fr">Aller au contenu</span></a>
-<div class="topbar">
-  <div class="wrap">
-    <span class="today" data-today></span>
-    <div class="controls">
-      <button type="button" class="toggle" data-toggle-lang>FR</button>
-      <button type="button" class="toggle" data-toggle-theme aria-label="Theme"></button>
-    </div>
-  </div>
-</div>
 <header class="masthead">
   <div class="wrap">
-    <a class="wordmark" href="/" aria-label="AFRIGOV"><svg class="mark" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,4 96,96 74,96 50,46 26,96 4,96" fill="currentColor"/><rect x="43" y="64" width="14" height="14" fill="#d99a2b"/></svg><b>AFRI<span>GOV</span></b></a>
-    <a class="btn" href="/#subscribe"><span data-lang="en">Subscribe, it's free</span><span data-lang="fr">S'abonner, c'est gratuit</span></a>
+    <a class="wordmark" href="/" aria-label="AFRIGOV"><svg class="mark" viewBox="0 0 100 100" aria-hidden="true"><polygon points="50,4 96,96 74,96 50,46 26,96 4,96" fill="currentColor"/><rect x="43" y="64" width="14" height="14" fill="#d99a2b"/></svg><span><b>AFRI<span>GOV</span></b><small><span data-lang="en">e-Gov by Africans</span><span data-lang="fr">L'e-gouv par les Africains</span></small></span></a>
+    <nav class="head-links" aria-label="Main">
+      <div>
+        <h2><span data-lang="en">The review</span><span data-lang="fr">La revue</span></h2>
+        <ul>
+          <li><a href="/about" aria-current="page"><span data-lang="en">About</span><span data-lang="fr">À propos</span></a></li>
+          <li><a href="/#subscribe"><span data-lang="en">Newsletter</span><span data-lang="fr">Newsletter</span></a></li>
+          <li><a href="/archive"><span data-lang="en">Archive</span><span data-lang="fr">Archives</span></a></li>
+        </ul>
+      </div>
+      <div>
+        <h2><span data-lang="en">Explore</span><span data-lang="fr">Explorer</span></h2>
+        <ul>
+          <li><a href="/archive?s=Public%20service%20delivery"><span data-lang="en">Public services</span><span data-lang="fr">Services publics</span></a></li>
+          <li><a href="/archive?s=Infrastructure"><span data-lang="en">Infrastructure</span><span data-lang="fr">Infrastructures</span></a></li>
+          <li><a href="/archive?s=Financing"><span data-lang="en">Financing</span><span data-lang="fr">Financements</span></a></li>
+        </ul>
+      </div>
+    </nav>
+    <div class="lang-switch" role="group" aria-label="Language / Langue">
+      <button type="button" data-set-lang="fr" lang="fr">FR</button><span aria-hidden="true">/</span><button type="button" data-set-lang="en" lang="en">EN</button>
+    </div>
   </div>
 </header>
-<nav class="sections" aria-label="Sections">
-  <div class="wrap"><ul><li><a href="/" data-section=""><span data-lang="en">Latest</span><span data-lang="fr">À la une</span></a></li><li><a href="/?s=Core%20government%20systems" data-section="Core government systems"><span data-lang="en">Core government systems</span><span data-lang="fr">Systèmes centraux</span></a></li><li><a href="/?s=Public%20service%20delivery" data-section="Public service delivery"><span data-lang="en">Public service delivery</span><span data-lang="fr">Services publics</span></a></li><li><a href="/?s=Citizen%20engagement" data-section="Citizen engagement"><span data-lang="en">Citizen engagement</span><span data-lang="fr">Participation citoyenne</span></a></li><li><a href="/?s=GovTech%20enablers" data-section="GovTech enablers"><span data-lang="en">GovTech enablers</span><span data-lang="fr">Catalyseurs</span></a></li><li><a href="/?s=Infrastructure" data-section="Infrastructure"><span data-lang="en">Infrastructure</span><span data-lang="fr">Infrastructures</span></a></li><li><a href="/?s=Financing" data-section="Financing"><span data-lang="en">Financing</span><span data-lang="fr">Financements</span></a></li><li><a href="/?s=Ecosystem" data-section="Ecosystem"><span data-lang="en">Ecosystem</span><span data-lang="fr">Écosystème</span></a></li></ul></div>
-</nav>
-
-<main id="main" class="wrap">
-  <article class="article prose">
-    <p class="kicker"><span data-lang="en">About</span><span data-lang="fr">À propos</span></p>
-    <h1 class="headline">e-Gov by Africans</h1>
-    <p class="lede"><span data-lang="en">AFRIGOV is the review of Africa's digital state, written by practitioners who deliver public services on the ground.</span><span data-lang="fr">AFRIGOV est la revue de l'État numérique africain, écrite par des praticiens qui livrent les services publics sur le terrain.</span></p>
-
-    <h2><span data-lang="en">What we cover</span><span data-lang="fr">Ce que nous suivons</span></h2>
-    <p><span data-lang="en">We follow digital government across the 54 countries of Africa through seven lenses:</span><span data-lang="fr">Nous suivons le gouvernement numérique dans les 54 pays d'Afrique à travers sept angles :</span></p>
-    <ol>
-      <li><span data-lang="en">Core government systems</span><span data-lang="fr">Systèmes centraux de l'État</span></li><li><span data-lang="en">Public service delivery</span><span data-lang="fr">Services publics en ligne</span></li><li><span data-lang="en">Citizen engagement</span><span data-lang="fr">Participation citoyenne</span></li><li><span data-lang="en">GovTech enablers</span><span data-lang="fr">Catalyseurs GovTech</span></li><li><span data-lang="en">Infrastructure</span><span data-lang="fr">Infrastructures</span></li><li><span data-lang="en">Financing</span><span data-lang="fr">Financements</span></li><li><span data-lang="en">Ecosystem</span><span data-lang="fr">Écosystème</span></li>
-    </ol>
-    <p><span data-lang="en">The first four are the GovTech focus areas defined by the World Bank. We add infrastructure, financing and the ecosystem of people and companies who build Africa's digital public services.</span><span data-lang="fr">Les quatre premiers sont les domaines GovTech définis par la Banque mondiale. Nous y ajoutons les infrastructures, les financements et l'écosystème des personnes et des entreprises qui construisent les services publics numériques africains.</span></p>
-
-    <h2><span data-lang="en">Who we are</span><span data-lang="fr">Qui sommes-nous</span></h2>
-    <p><span data-lang="en">[Short presentation of the editorial team: names, roles, countries.]</span><span data-lang="fr">[Courte présentation de l'équipe éditoriale : noms, rôles, pays.]</span></p>
-
-    <h2><span data-lang="en">Write with us</span><span data-lang="fr">Écrire avec nous</span></h2>
-    <p><span data-lang="en">You deliver digital public services in an African country and want to share what works and what does not? Write to</span><span data-lang="fr">Vous livrez des services publics numériques dans un pays africain et voulez partager ce qui marche et ce qui bloque ? Écrivez à</span> <span data-contact></span>.</p>
-  </article>
+<main id="main" class="wrap layout">
+    <div>
+    <article class="article">
+      <h1 class="article-title"><span data-lang="en">About AFRIGOV</span><span data-lang="fr">À propos d'AFRIGOV</span></h1>
+      <div class="prose">
+        <p><span data-lang="en">AFRIGOV is the review of Africa's digital state, written by practitioners who deliver public services on the ground. We write about what works, what breaks, and why, from the counter of a civil registry office to the boardroom of a development bank.</span><span data-lang="fr">AFRIGOV est la revue de l'État numérique africain, écrite par des praticiens qui livrent les services publics sur le terrain. Nous racontons ce qui marche, ce qui casse, et pourquoi, du guichet d'un état civil à la salle de réunion d'une banque de développement.</span></p>
+        <h2><span data-lang="en">What we cover</span><span data-lang="fr">Ce que nous suivons</span></h2>
+        <p><span data-lang="en">We follow digital government across the 54 countries of Africa through seven lenses:</span><span data-lang="fr">Nous suivons le gouvernement numérique dans les 54 pays d'Afrique à travers sept angles :</span></p>
+        <ol><li><span data-lang="en">Core government systems</span><span data-lang="fr">Systèmes centraux de l'État</span></li><li><span data-lang="en">Public service delivery</span><span data-lang="fr">Services publics en ligne</span></li><li><span data-lang="en">Citizen engagement</span><span data-lang="fr">Participation citoyenne</span></li><li><span data-lang="en">GovTech enablers</span><span data-lang="fr">Catalyseurs GovTech</span></li><li><span data-lang="en">Infrastructure</span><span data-lang="fr">Infrastructures</span></li><li><span data-lang="en">Financing</span><span data-lang="fr">Financements</span></li><li><span data-lang="en">Ecosystem</span><span data-lang="fr">Écosystème</span></li></ol>
+        <p><span data-lang="en">The first four are the GovTech focus areas defined by the World Bank. We add infrastructure, financing and the ecosystem of people and companies who build Africa's digital public services.</span><span data-lang="fr">Les quatre premiers sont les domaines GovTech définis par la Banque mondiale. Nous y ajoutons les infrastructures, les financements et l'écosystème des personnes et des entreprises qui construisent les services publics numériques africains.</span></p>
+        <h2><span data-lang="en">Who we are</span><span data-lang="fr">Qui sommes-nous</span></h2>
+        <p><span data-lang="en">[Short presentation of the editorial team: names, roles, countries.]</span><span data-lang="fr">[Courte présentation de l'équipe éditoriale : noms, rôles, pays.]</span></p>
+        <h2><span data-lang="en">Write with us</span><span data-lang="fr">Écrire avec nous</span></h2>
+        <p><span data-lang="en">You deliver digital public services in an African country and want to share what works and what does not? Write to</span><span data-lang="fr">Vous livrez des services publics numériques dans un pays africain et voulez partager ce qui marche et ce qui bloque ? Écrivez à</span> <span data-contact></span>.</p>
+      </div>
+    </article>
+    </div>
+    <aside class="side">
+      <form class="subscribe" id="subscribe" data-subscribe novalidate>
+        <h2>AFRIGOV <em><span data-lang="en">by email</span><span data-lang="fr">par email</span></em></h2>
+        <p><span data-lang="en">Field notes, data and analysis on Africa's digital state. Free, unsubscribe anytime.</span><span data-lang="fr">Retours de terrain, données et analyses sur l'État numérique africain. Gratuit, désinscription à tout moment.</span></p>
+        <div class="form">
+          <label class="sr-only" for="sub-email">Email</label>
+          <div class="inline">
+            <input type="email" id="sub-email" name="email" placeholder="you@example.org" data-ph-en="you@example.org" data-ph-fr="vous@exemple.org" autocomplete="email" required>
+            <button type="submit" class="btn"><span data-lang="en">Subscribe</span><span data-lang="fr">S'abonner</span></button>
+          </div>
+          <label class="check"><input type="checkbox" id="sub-consent" name="consent" required> <span><span data-lang="en">I agree to receive AFRIGOV by email.</span><span data-lang="fr">J'accepte de recevoir AFRIGOV par email.</span> <a href="/privacy"><span data-lang="en">Privacy</span><span data-lang="fr">Confidentialité</span></a></span></label>
+          <input type="hidden" name="lang" value="en">
+          <div class="hp" aria-hidden="true"><label>Website <input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+          <p class="notice" data-msg role="status" hidden></p>
+        </div>
+      </form>
+      <form class="search" action="/archive" method="get" role="search">
+        <label class="sr-only" for="q"><span data-lang="en">Search</span><span data-lang="fr">Rechercher</span></label>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+        <input type="search" id="q" name="q" placeholder="Search…" data-ph-en="Search…" data-ph-fr="Rechercher…">
+      </form>
+      <section>
+        <h2 class="side-title"><span data-lang="en">Latest</span><span data-lang="fr">À lire</span> <span class="pill">AFRIGOV</span></h2>
+        <ul class="recent" id="recent"></ul>
+      </section>
+      <section>
+        <h2 class="side-title"><span data-lang="en">Sections</span><span data-lang="fr">Rubriques</span></h2>
+        <ul class="topics"><li><a href="/archive?s=Core%20government%20systems"><span data-lang="en">Core government systems</span><span data-lang="fr">Systèmes centraux de l'État</span></a></li><li><a href="/archive?s=Public%20service%20delivery"><span data-lang="en">Public service delivery</span><span data-lang="fr">Services publics en ligne</span></a></li><li><a href="/archive?s=Citizen%20engagement"><span data-lang="en">Citizen engagement</span><span data-lang="fr">Participation citoyenne</span></a></li><li><a href="/archive?s=GovTech%20enablers"><span data-lang="en">GovTech enablers</span><span data-lang="fr">Catalyseurs GovTech</span></a></li><li><a href="/archive?s=Infrastructure"><span data-lang="en">Infrastructure</span><span data-lang="fr">Infrastructures</span></a></li><li><a href="/archive?s=Financing"><span data-lang="en">Financing</span><span data-lang="fr">Financements</span></a></li><li><a href="/archive?s=Ecosystem"><span data-lang="en">Ecosystem</span><span data-lang="fr">Écosystème</span></a></li></ul>
+      </section>
+    </aside>
 </main>
 <footer class="site-footer">
   <div class="wrap">

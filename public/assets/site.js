@@ -10,14 +10,14 @@
       consent_title: 'Your privacy',
       consent_text: 'AFRIGOV uses no advertising and no tracking cookies. With your permission, we measure visits with Cloudflare Web Analytics to understand which articles are useful. View, like and comment counters work without cookies. <a href="/privacy">Read our privacy policy</a>.',
       consent_legend: 'Choose what you allow',
-      consent_necessary: '<strong>Strictly necessary</strong>: remembers your choices (privacy, language, theme). Always on.',
+      consent_necessary: '<strong>Strictly necessary</strong>: remembers your choices (privacy, language). Always on.',
       consent_analytics: '<strong>Audience measurement</strong>: anonymous visit statistics (Cloudflare Web Analytics).',
       accept: 'Accept', refuse: 'Refuse', settings: 'Settings', save_choices: 'Save my choices',
       sub_ok: 'Thank you. You will receive the next AFRIGOV email.',
       generic_error: 'Something went wrong. Please try again.',
       all: 'All', issue: 'Issue', views: 'views', likes: 'likes', comments: 'comments',
       no_articles: 'No articles here yet. The first AFRIGOV publication is on its way: subscribe to receive it.',
-      no_articles_title: 'The first edition is on its way', no_section: 'Nothing published in this section yet.', no_popular: 'Rankings will appear after the first publications.',
+      no_articles_title: 'The first edition is on its way', welcome_text: 'AFRIGOV is the review of Africa\'s digital state, written by practitioners who deliver public services on the ground. The first articles are being written. Subscribe to receive them as soon as they are published.', no_results: 'No article matches your search.', results_for: 'Results for', permalink: 'Permalink', no_section: 'Nothing published in this section yet.', no_popular: 'Rankings will appear after the first publications.',
       load_error: 'Articles could not be loaded. Please refresh the page.',
       by: 'By', min_read: 'min read', draft_preview: 'DRAFT PREVIEW',
       not_found_title: 'Article not found', not_found_text: 'This article does not exist or is no longer published.',
@@ -37,14 +37,14 @@
       consent_title: 'Votre vie privée',
       consent_text: 'AFRIGOV n\'utilise ni publicité ni cookies de suivi. Avec votre accord, nous mesurons les visites avec Cloudflare Web Analytics pour savoir quels articles sont utiles. Les compteurs de vues, de likes et de commentaires fonctionnent sans cookie. <a href="/privacy">Lire notre politique de confidentialité</a>.',
       consent_legend: 'Choisissez ce que vous autorisez',
-      consent_necessary: '<strong>Strictement nécessaire</strong> : mémorise vos choix (confidentialité, langue, thème). Toujours actif.',
+      consent_necessary: '<strong>Strictement nécessaire</strong> : mémorise vos choix (confidentialité, langue). Toujours actif.',
       consent_analytics: '<strong>Mesure d\'audience</strong> : statistiques de visite anonymes (Cloudflare Web Analytics).',
       accept: 'Accepter', refuse: 'Refuser', settings: 'Paramétrer', save_choices: 'Enregistrer mes choix',
       sub_ok: 'Merci. Vous recevrez le prochain email d\'AFRIGOV.',
       generic_error: 'Une erreur est survenue. Merci de réessayer.',
       all: 'Tout', issue: 'Numéro', views: 'vues', likes: 'likes', comments: 'commentaires',
       no_articles: 'Aucun article pour le moment. La première publication d\'AFRIGOV arrive : abonnez-vous pour la recevoir.',
-      no_articles_title: 'La première édition arrive', no_section: 'Rien n\'a encore été publié dans cette rubrique.', no_popular: 'Le classement apparaîtra après les premières publications.',
+      no_articles_title: 'La première édition arrive', welcome_text: 'AFRIGOV est la revue de l\'État numérique africain, écrite par des praticiens qui livrent les services publics sur le terrain. Les premiers articles sont en cours d\'écriture. Abonnez-vous pour les recevoir dès leur publication.', no_results: 'Aucun article ne correspond à votre recherche.', results_for: 'Résultats pour', permalink: 'Lien permanent', no_section: 'Rien n\'a encore été publié dans cette rubrique.', no_popular: 'Le classement apparaîtra après les premières publications.',
       load_error: 'Les articles n\'ont pas pu être chargés. Merci de rafraîchir la page.',
       by: 'Par', min_read: 'min de lecture', draft_preview: 'APERÇU DU BROUILLON',
       not_found_title: 'Article introuvable', not_found_text: 'Cet article n\'existe pas ou n\'est plus publié.',
@@ -63,10 +63,10 @@
   };
 
   var CATEGORY_FR = {
-    'Core government systems': 'Systèmes centraux',
-    'Public service delivery': 'Services publics',
+    'Core government systems': 'Systèmes centraux de l\'État',
+    'Public service delivery': 'Services publics en ligne',
     'Citizen engagement': 'Participation citoyenne',
-    'GovTech enablers': 'Catalyseurs',
+    'GovTech enablers': 'Catalyseurs GovTech',
     'Infrastructure': 'Infrastructures',
     'Financing': 'Financements',
     'Ecosystem': 'Écosystème',
@@ -188,47 +188,17 @@
       var d = new Date().toLocaleDateString(lang() === 'fr' ? 'fr-FR' : 'en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
       el.textContent = d.charAt(0).toUpperCase() + d.slice(1);
     });
-    var lb = document.querySelector('[data-toggle-lang]');
-    if (lb) {
-      lb.textContent = lang() === 'fr' ? 'EN' : 'FR';
-      lb.setAttribute('aria-label', t('to_lang'));
-      lb.setAttribute('lang', lang() === 'fr' ? 'en' : 'fr');
-    }
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.getAttribute('data-set-lang') === lang()));
+    });
   }
 
   function setLang(l) {
     root.setAttribute('lang', l);
     try { localStorage.setItem('afg_lang', l); } catch (e) {}
     applyAttributes();
-    updateThemeButton();
     if (banner) openBanner(!banner.querySelector('#consent-settings').hidden);
     langListeners.forEach(function (fn) { fn(l); });
-  }
-
-  // ---------- Thème clair / sombre ----------
-  var SUN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
-  var MOON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
-
-  function isDark() {
-    var forced = root.getAttribute('data-theme');
-    if (forced) return forced === 'dark';
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-  }
-
-  function updateThemeButton() {
-    var b = document.querySelector('[data-toggle-theme]');
-    if (!b) return;
-    var dark = isDark();
-    b.innerHTML = dark ? SUN : MOON;
-    b.setAttribute('aria-label', dark ? t('to_light') : t('to_dark'));
-    b.setAttribute('title', dark ? t('to_light') : t('to_dark'));
-  }
-
-  function toggleTheme() {
-    var next = isDark() ? 'light' : 'dark';
-    root.setAttribute('data-theme', next);
-    try { localStorage.setItem('afg_theme', next); } catch (e) {}
-    updateThemeButton();
   }
 
   // ---------- Consentement cookies ----------
@@ -336,15 +306,9 @@
 
   document.addEventListener('DOMContentLoaded', function () {
     applyAttributes();
-    updateThemeButton();
-    if (window.matchMedia) {
-      var mq = window.matchMedia('(prefers-color-scheme: dark)');
-      if (mq.addEventListener) mq.addEventListener('change', updateThemeButton);
-    }
-    var lb = document.querySelector('[data-toggle-lang]');
-    if (lb) lb.addEventListener('click', function () { setLang(lang() === 'fr' ? 'en' : 'fr'); });
-    var tb = document.querySelector('[data-toggle-theme]');
-    if (tb) tb.addEventListener('click', toggleTheme);
+    document.querySelectorAll('[data-set-lang]').forEach(function (b) {
+      b.addEventListener('click', function () { setLang(b.getAttribute('data-set-lang')); });
+    });
 
     var c = getConsent();
     if (c) applyConsent(c); else if (!document.body.hasAttribute('data-no-consent')) openBanner(false);
