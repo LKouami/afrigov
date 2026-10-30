@@ -38,6 +38,15 @@ CREATE TABLE IF NOT EXISTS views_daily (
   PRIMARY KEY (article_id, day)
 );
 
+-- Une vue par visiteur, par article et par jour. Empreinte hachée et salée, effacée dès le lendemain.
+CREATE TABLE IF NOT EXISTS view_marks (
+  article_id  INTEGER NOT NULL,
+  fingerprint TEXT NOT NULL,
+  day         TEXT NOT NULL,
+  PRIMARY KEY (article_id, fingerprint)
+);
+CREATE INDEX IF NOT EXISTS idx_view_marks_day ON view_marks(day);
+
 CREATE TABLE IF NOT EXISTS comments (
   id         INTEGER PRIMARY KEY AUTOINCREMENT,
   article_id INTEGER NOT NULL,
