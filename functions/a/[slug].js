@@ -5,13 +5,22 @@ import { getPublished } from '../../lib/util.js';
 
 const SITE = 'https://afrigov.news';
 const CATEGORY_FR = {
-  'Core government systems': "Systèmes centraux de l'État",
-  'Public service delivery': 'Services publics en ligne',
+  'Core government systems': "Systèmes de gestion de l'État",
+  'Public service delivery': 'Services publics numériques',
   'Citizen engagement': 'Participation citoyenne',
-  'GovTech enablers': 'Catalyseurs GovTech',
-  Infrastructure: 'Infrastructures',
-  Financing: 'Financements',
-  Ecosystem: 'Écosystème',
+  'GovTech enablers': 'Stratégies, lois et compétences',
+  Infrastructure: 'Infrastructures numériques',
+  Financing: 'Financement du numérique public',
+  Ecosystem: 'Acteurs et écosystème',
+};
+const CATEGORY_EN = {
+  'Core government systems': 'Government management systems',
+  'Public service delivery': 'Digital public services',
+  'Citizen engagement': 'Citizen engagement',
+  'GovTech enablers': 'Strategies, laws and skills',
+  Infrastructure: 'Digital infrastructure',
+  Financing: 'Funding digital government',
+  Ecosystem: 'People and ecosystem',
 };
 
 function plainText(md) {
@@ -51,7 +60,7 @@ export async function onRequestGet({ request, env, params }) {
   const url = `${SITE}/a/${encodeURIComponent(article.slug)}`;
   const title = `${article.title} | AFRIGOV`;
   const description = excerpt(article);
-  const section = article.kicker || [lang === 'fr' ? CATEGORY_FR[article.category] || article.category : article.category, article.country].filter(Boolean).join(' · ');
+  const section = article.kicker || [(lang === 'fr' ? CATEGORY_FR : CATEGORY_EN)[article.category] || article.category, article.country].filter(Boolean).join(' · ');
   const byline = [formatDate(article.published_at, lang), article.author ? (lang === 'fr' ? 'Par ' : 'By ') + article.author : '']
     .filter(Boolean).map((x) => `<span>${esc(x)}</span>`).join('<span aria-hidden="true">·</span>');
 

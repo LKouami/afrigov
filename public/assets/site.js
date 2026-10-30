@@ -63,18 +63,27 @@
   };
 
   var CATEGORY_FR = {
-    'Core government systems': 'Systèmes centraux de l\'État',
-    'Public service delivery': 'Services publics en ligne',
+    'Core government systems': 'Systèmes de gestion de l\'État',
+    'Public service delivery': 'Services publics numériques',
     'Citizen engagement': 'Participation citoyenne',
-    'GovTech enablers': 'Catalyseurs GovTech',
-    'Infrastructure': 'Infrastructures',
-    'Financing': 'Financements',
-    'Ecosystem': 'Écosystème',
+    'GovTech enablers': 'Stratégies, lois et compétences',
+    'Infrastructure': 'Infrastructures numériques',
+    'Financing': 'Financement du numérique public',
+    'Ecosystem': 'Acteurs et écosystème',
+  };
+  var CATEGORY_EN = {
+    'Core government systems': 'Government management systems',
+    'Public service delivery': 'Digital public services',
+    'Citizen engagement': 'Citizen engagement',
+    'GovTech enablers': 'Strategies, laws and skills',
+    'Infrastructure': 'Digital infrastructure',
+    'Financing': 'Funding digital government',
+    'Ecosystem': 'People and ecosystem',
   };
 
   function lang() { return root.getAttribute('lang') === 'fr' ? 'fr' : 'en'; }
   function t(key) { return (I18N[lang()] && I18N[lang()][key]) || I18N.en[key] || key; }
-  function category(c) { return lang() === 'fr' ? CATEGORY_FR[c] || c : c; }
+  function category(c) { return (lang() === 'fr' ? CATEGORY_FR : CATEGORY_EN)[c] || c; }
 
   function esc(s) {
     return String(s == null ? '' : s)
@@ -311,7 +320,8 @@
     });
     document.querySelectorAll('form[data-subscribe]').forEach(bindSubscribe);
     document.querySelectorAll('[data-contact]').forEach(function (el) {
-      el.textContent = CONFIG.contactEmail || '';
+      var email = CONFIG.contactEmail || '';
+      el.innerHTML = email ? '<a href="mailto:' + esc(email) + '">' + esc(email) + '</a>' : '';
     });
     document.querySelectorAll('[data-year]').forEach(function (y) { y.textContent = new Date().getFullYear(); });
   });

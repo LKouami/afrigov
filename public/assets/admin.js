@@ -129,7 +129,7 @@
   }
 
   function updatePreview() {
-    $('pv-kicker').textContent = field('kicker').value || [field('category').value, field('country').value].filter(Boolean).join(' · ');
+    $('pv-kicker').textContent = field('kicker').value || [AFG.category(field('category').value), field('country').value].filter(Boolean).join(' · ');
     $('pv-title').textContent = field('title').value || 'Titre de l’article';
     $('pv-lede').textContent = field('lede').value;
     $('pv-body').innerHTML = AFG.markdown(field('body').value);
