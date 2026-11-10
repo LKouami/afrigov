@@ -11,6 +11,7 @@
   var state = 'loading'; // loading | ready | notfound | empty
   var likeState = { likes: 0, liked: false };
   var comments = null;
+  var shownBody = null;
 
   function render() {
     $('like-label').textContent = AFG.t(likeState.liked ? 'liked' : 'like');
@@ -30,8 +31,17 @@
       return;
     }
     if (!article) return;
-    var a = article;
-    if (!isHome) document.title = a.title + ' | AFRIGOV';
+    var a = AFG.localize(article);
+    var l = a.lang || 'en';
+    ['a-section', 'a-title', 'a-lede', 'a-body'].forEach(function (id) { $(id).setAttribute('lang', l); });
+    $('a-lede').textContent = a.lede || '';
+    $('a-lede').hidden = !a.lede;
+    if (a.body !== shownBody) { $('a-body').innerHTML = AFG.markdown(a.body); shownBody = a.body; }
+    if (!isHome) {
+      document.title = a.title + ' | AFRIGOV';
+      var desc = document.querySelector('meta[name="description"]');
+      if (desc && a.lede) { desc.setAttribute('content', a.lede); desc.removeAttribute('data-desc-en'); desc.removeAttribute('data-desc-fr'); }
+    }
     var link = '/a/' + encodeURIComponent(a.slug);
     $('a-title').innerHTML = isHome ? '<a href="' + link + '">' + AFG.esc(a.title) + '</a>' : AFG.esc(a.title);
     $('a-section').textContent = a.kicker || [AFG.category(a.category), a.country].filter(Boolean).join(' · ');
@@ -41,6 +51,8 @@
       AFG.readingTime(a.body) + ' ' + AFG.t('min_read'),
       a.status === 'draft' ? AFG.t('draft_preview') : '',
     ].filter(Boolean).map(function (x) { return '<span>' + AFG.esc(x) + '</span>'; });
+    // Autre langue disponible : un lien qui bascule tout le site dans cette langue.
+    if (a.other) by.push('<a href="?lang=' + a.other + '" data-switch-lang="' + a.other + '" lang="' + a.other + '">' + AFG.esc(AFG.t('to_lang')) + '</a>');
     $('a-byline').innerHTML = by.join('<span aria-hidden="true">·</span>');
   }
 
@@ -67,15 +79,6 @@
     state = 'ready';
     document.dispatchEvent(new CustomEvent('afg:article', { detail: a.slug }));
     base = '/api/articles/' + encodeURIComponent(a.slug);
-    $('a-section').setAttribute('lang', a.lang || 'en');
-    $('a-title').setAttribute('lang', a.lang || 'en');
-    $('a-body').setAttribute('lang', a.lang || 'en');
-    if (a.lede) { $('a-lede').textContent = a.lede; $('a-lede').hidden = false; $('a-lede').setAttribute('lang', a.lang || 'en'); }
-    if (!isHome) {
-      var desc = document.querySelector('meta[name="description"]');
-      if (desc && a.lede) { desc.setAttribute('content', a.lede); desc.removeAttribute('data-desc-en'); }
-    }
-    $('a-body').innerHTML = AFG.markdown(a.body);
     $('article').setAttribute('aria-busy', 'false');
     $('view-count').textContent = a.views;
     setLike({ likes: a.likes, liked: false });
@@ -97,7 +100,8 @@
     AFG.api('/api/articles').then(function (d) {
       if (!d.articles.length) { state = 'empty'; $('article').setAttribute('aria-busy', 'false'); render(); return; }
       // Le dernier texte dans la langue du lecteur s'il existe, sinon le dernier tout court.
-      var pick = d.articles.filter(function (a) { return a.lang === AFG.lang(); })[0] || d.articles[0];
+      // Un article traduit compte dans les deux langues.
+      var pick = d.articles.filter(function (a) { return a.lang === AFG.lang() || a.tr_title; })[0] || d.articles[0];
       return AFG.api('/api/articles/' + encodeURIComponent(pick.slug)).then(function (r) { show(r.article); });
     }).catch(function () { state = 'notfound'; render(); });
   } else if (!slug) {
@@ -107,6 +111,13 @@
       .then(function (r) { show(r.article); })
       .catch(function () { state = 'notfound'; $('article').setAttribute('aria-busy', 'false'); render(); });
   }
+
+  $('a-byline').addEventListener('click', function (e) {
+    var sw = e.target.closest('[data-switch-lang]');
+    if (!sw) return;
+    e.preventDefault();
+    AFG.setLang(sw.getAttribute('data-switch-lang'));
+  });
 
   $('like').addEventListener('click', function () {
     var btn = $('like');

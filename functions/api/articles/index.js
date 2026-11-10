@@ -5,7 +5,7 @@ export async function onRequestGet({ request, env }) {
   const url = new URL(request.url);
   const category = url.searchParams.get('category');
   let sql = `SELECT a.slug, a.title, a.kicker, a.lede, a.category, a.country, a.issue, a.lang, a.author,
-                    a.views, a.likes, a.published_at,
+                    a.tr_title, a.tr_kicker, a.tr_lede, a.views, a.likes, a.published_at,
                     (SELECT COUNT(*) FROM comments c WHERE c.article_id = a.id AND c.status = 'approved') AS comments
              FROM articles a WHERE a.status = 'published'`;
   const binds = [];
@@ -29,12 +29,14 @@ export async function onRequestPost({ request, env }) {
   const exists = await env.DB.prepare('SELECT id FROM articles WHERE slug = ?').bind(article.slug).first();
   if (exists) return fail('Cette adresse est déjà utilisée par un autre article', 409);
   await env.DB.prepare(
-    `INSERT INTO articles (slug, title, kicker, lede, body, category, country, issue, lang, author, status, published_at)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
+    `INSERT INTO articles (slug, title, kicker, lede, body, category, country, issue, lang, author,
+                           tr_title, tr_kicker, tr_lede, tr_body, status, published_at)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`
   )
     .bind(
       article.slug, article.title, article.kicker, article.lede, article.body, article.category, article.country,
-      article.issue, article.lang, article.author, article.status,
+      article.issue, article.lang, article.author,
+      article.tr_title, article.tr_kicker, article.tr_lede, article.tr_body, article.status,
       article.status === 'published' ? new Date().toISOString() : null
     )
     .run();

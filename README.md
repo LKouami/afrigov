@@ -59,11 +59,20 @@ Dans l'espace admin : Articles > Nouvel article. Le contenu s'écrit en Markdown
 - `- élément de liste`, `1. liste numérotée`, `> citation`, `---` pour un séparateur
 - Image hébergée ailleurs : `![description](https://...)`
 
+Pour publier un article en deux langues, remplissez aussi le cadre « Version anglaise » (ou « Version française » si l'article est en anglais) : au minimum le titre et le contenu. Une seule adresse sert les deux versions : le lecteur voit celle qui correspond au bouton FR / EN, avec un lien « Read in English » / « Lire en français » sous le titre. Pour partager une langue précise, ajoutez `?lang=en` ou `?lang=fr` à l'adresse. Vues, likes et commentaires sont communs aux deux versions.
+
 « Enregistrer le brouillon » garde l'article invisible du public. « Publier » le met en ligne à l'adresse `/a/<adresse-de-l-article>`.
 
 ## Envoyer la revue
 
 Le site collecte les abonnés, il n'envoie pas les emails. Chaque mois : Abonnés > Exporter en CSV, importer le fichier dans Brevo ou MailerLite (gratuits au démarrage), puis envoyer la newsletter avec un lien vers les articles du site. Le lien de désinscription est géré par Brevo ou MailerLite. Pensez à supprimer aussi la personne dans l'espace admin quand elle se désinscrit.
+
+## Mettre à jour la base
+
+Si la base a été créée avant l'ajout des traductions, lancer une fois :
+```
+npx wrangler d1 execute afrigov-db --remote --file=migrations/0001_traductions.sql
+```
 
 ## Tester sur son ordinateur
 

@@ -30,9 +30,9 @@ export async function onRequestPut({ request, env, params }) {
   const publishedAt = a.status === 'published' ? current.published_at || new Date().toISOString() : current.published_at;
   await env.DB.prepare(
     `UPDATE articles SET slug=?, title=?, kicker=?, lede=?, body=?, category=?, country=?, issue=?, lang=?, author=?,
-            status=?, published_at=?, updated_at=datetime('now') WHERE id=?`
+            tr_title=?, tr_kicker=?, tr_lede=?, tr_body=?, status=?, published_at=?, updated_at=datetime('now') WHERE id=?`
   )
-    .bind(a.slug, a.title, a.kicker, a.lede, a.body, a.category, a.country, a.issue, a.lang, a.author, a.status, publishedAt, current.id)
+    .bind(a.slug, a.title, a.kicker, a.lede, a.body, a.category, a.country, a.issue, a.lang, a.author, a.tr_title, a.tr_kicker, a.tr_lede, a.tr_body, a.status, publishedAt, current.id)
     .run();
   return json({ ok: true, slug: a.slug });
 }

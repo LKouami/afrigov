@@ -47,17 +47,27 @@ const setAttr = (name, value) => ({ element(el) { el.setAttribute(name, value); 
 
 export async function onRequestGet({ request, env, params }) {
   const template = await env.ASSETS.fetch(new URL('/article', request.url));
-  const article = await getPublished(env, params.slug);
+  const original = await getPublished(env, params.slug);
 
-  if (!article) {
+  if (!original) {
     // Article absent : la page s'affiche (message géré par le navigateur) avec un vrai code 404, non indexée.
     return new HTMLRewriter()
       .on('head', { element(el) { el.append('<meta name="robots" content="noindex">', { html: true }); } })
       .transform(new Response(template.body, { status: 404, headers: template.headers }));
   }
 
-  const lang = article.lang === 'fr' ? 'fr' : 'en';
-  const url = `${SITE}/a/${encodeURIComponent(article.slug)}`;
+  // ?lang=fr ou ?lang=en : sert la traduction si elle existe (lien partagé dans une langue précise).
+  const baseLang = original.lang === 'fr' ? 'fr' : 'en';
+  const otherLang = baseLang === 'fr' ? 'en' : 'fr';
+  const hasTr = !!original.tr_title;
+  const asked = new URL(request.url).searchParams.get('lang');
+  const useTr = hasTr && asked === otherLang;
+  const article = useTr
+    ? { ...original, title: original.tr_title, kicker: original.tr_kicker, lede: original.tr_lede, body: original.tr_body || original.body }
+    : original;
+  const lang = useTr ? otherLang : baseLang;
+  const baseUrl = `${SITE}/a/${encodeURIComponent(original.slug)}`;
+  const url = useTr ? `${baseUrl}?lang=${lang}` : baseUrl;
   const title = `${article.title} | AFRIGOV`;
   const description = excerpt(article);
   const section = article.kicker || [(lang === 'fr' ? CATEGORY_FR : CATEGORY_EN)[article.category] || article.category, article.country].filter(Boolean).join(' · ');
@@ -105,6 +115,10 @@ export async function onRequestGet({ request, env, params }) {
     .on('head', {
       element(el) {
         el.append(`<meta property="article:published_time" content="${esc(article.published_at || '')}">`, { html: true });
+        if (hasTr) {
+          el.append(`<link rel="alternate" hreflang="${baseLang}" href="${baseUrl}">`, { html: true });
+          el.append(`<link rel="alternate" hreflang="${otherLang}" href="${baseUrl}?lang=${otherLang}">`, { html: true });
+        }
         el.append(`<script type="application/ld+json">${JSON.stringify(jsonld).replace(/</g, '\\u003c')}</script>`, { html: true });
       },
     })

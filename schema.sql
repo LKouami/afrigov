@@ -13,6 +13,11 @@ CREATE TABLE IF NOT EXISTS articles (
   issue        INTEGER,                         -- numéro de la revue
   lang         TEXT NOT NULL DEFAULT 'en',      -- en | fr
   author       TEXT NOT NULL DEFAULT '',
+  -- traduction facultative dans l'autre langue (fr si lang = en, en si lang = fr)
+  tr_title     TEXT NOT NULL DEFAULT '',
+  tr_kicker    TEXT NOT NULL DEFAULT '',
+  tr_lede      TEXT NOT NULL DEFAULT '',
+  tr_body      TEXT NOT NULL DEFAULT '',
   status       TEXT NOT NULL DEFAULT 'draft',   -- draft | published
   views        INTEGER NOT NULL DEFAULT 0,
   likes        INTEGER NOT NULL DEFAULT 0,
