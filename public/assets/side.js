@@ -17,6 +17,7 @@
     var items = articles.filter(function (a) { return a.slug !== current; }).slice(0, 6);
     recent.innerHTML = items.length
       ? items.map(function (a) {
+          a = AFG.localize(a);
           return '<li><a href="/a/' + encodeURIComponent(a.slug) + '" lang="' + AFG.esc(a.lang) + '">' + AFG.esc(a.title) +
             '<time datetime="' + AFG.esc(a.published_at || '') + '">' + AFG.esc(AFG.formatDate(a.published_at)) + '</time></a></li>';
         }).join('')
@@ -49,12 +50,13 @@
     if (!q || !articles) { close(); return; }
     var words = norm(q).split(/\s+/).filter(Boolean);
     var found = articles.filter(function (a) {
-      var hay = norm([a.title, a.lede, a.country, a.author].join(' '));
+      var hay = norm([a.title, a.lede, a.tr_title, a.tr_lede, a.country, a.author].join(' '));
       return words.every(function (w) { return hay.indexOf(w) > -1; });
     }).slice(0, 8);
     active = -1;
     results.innerHTML = found.length
       ? found.map(function (a, i) {
+          a = AFG.localize(a);
           return '<li><a href="/a/' + encodeURIComponent(a.slug) + '" role="option" id="q-opt-' + i + '" lang="' + AFG.esc(a.lang) + '">' +
             highlight(a.title, words) + '<small>' + AFG.esc(AFG.formatDate(a.published_at)) + (a.author ? ' · ' + AFG.esc(a.author) : '') + '</small></a></li>';
         }).join('')

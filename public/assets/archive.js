@@ -6,6 +6,7 @@
   var failed = false;
 
   function entry(a) {
+    a = AFG.localize(a);
     var by = [AFG.formatDate(a.published_at), a.author ? AFG.t('by') + ' ' + a.author : '']
       .filter(Boolean).map(function (x) { return '<span>' + AFG.esc(x) + '</span>'; }).join('<span aria-hidden="true">·</span>');
     return '<li class="entry" lang="' + AFG.esc(a.lang) + '"><h2><a href="/a/' + encodeURIComponent(a.slug) + '">' + AFG.esc(a.title) + '</a></h2>' +

@@ -225,7 +225,7 @@ td.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
 .status.draft { border: 1px solid var(--hairline); color: var(--ink-muted); }
 .editor { display: grid; gap: var(--space-4); grid-template-columns: minmax(0, 1fr); }
 @media (min-width: 1000px) { .editor { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
-.editor textarea[name="body"] { min-height: 420px; font-family: var(--font-mono); font-size: 14px; }
+.editor textarea[name="body"], .editor textarea[name="tr_body"] { min-height: 420px; font-family: var(--font-mono); font-size: 14px; }
 .preview { background: #ffffff; border: 1px solid var(--hairline); padding: var(--space-4); max-height: 900px; overflow: auto; }
 .help { font-size: 14px; color: var(--ink-muted); line-height: 20px; }
 .chart { display: flex; align-items: flex-end; gap: 3px; height: 120px; padding-top: var(--space-2); border-bottom: 1px solid var(--hairline); }
@@ -238,3 +238,7 @@ td.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
 .prose .themes { list-style: none; padding: 0; display: grid; gap: var(--space-3); }
 .themes strong { display: block; font-weight: 600; }
 .themes small { display: block; color: var(--ink-muted); font-size: 15px; line-height: 1.5; }
+
+/* Admin : version traduite d'un article */
+.form fieldset.translation { border: 1px solid var(--hairline); padding: var(--space-3); margin: var(--space-3) 0 0; display: grid; gap: var(--space-2); }
+.form fieldset.translation legend { font-weight: 600; font-size: 14px; padding: 0 var(--space-1); }

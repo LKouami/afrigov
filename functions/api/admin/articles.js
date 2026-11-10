@@ -4,6 +4,7 @@ import { json } from '../../../lib/util.js';
 export async function onRequestGet({ env }) {
   const { results } = await env.DB.prepare(
     `SELECT a.slug, a.title, a.kicker, a.lede, a.body, a.category, a.country, a.issue, a.lang, a.author, a.status,
+            a.tr_title, a.tr_kicker, a.tr_lede, a.tr_body,
             a.views, a.likes, a.published_at, a.updated_at,
             (SELECT COUNT(*) FROM comments c WHERE c.article_id = a.id AND c.status = 'approved') AS comments,
             (SELECT COUNT(*) FROM comments c WHERE c.article_id = a.id AND c.status = 'pending') AS pending

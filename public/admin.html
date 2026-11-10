@@ -87,6 +87,14 @@
             <label for="ed-author">Auteur <input type="text" id="ed-author" name="author" maxlength="80"></label>
             <label for="ed-body">Contenu (Markdown) <textarea id="ed-body" name="body"></textarea></label>
             <p class="help">## Intertitre · ### Sous-titre · **gras** · *italique* · [lien](https://...) · - liste · &gt; citation · --- séparateur</p>
+            <fieldset class="translation">
+              <legend id="tr-legend">Version anglaise (facultatif)</legend>
+              <p class="help" id="tr-help">Remplissez le titre et le contenu pour publier l'article dans les deux langues. Les lecteurs voient la version qui correspond au bouton FR / EN du site. Vues, likes et commentaires sont communs aux deux versions.</p>
+              <label for="ed-tr_title">Titre <input type="text" id="ed-tr_title" name="tr_title" maxlength="200"></label>
+              <label for="ed-tr_kicker">Surtitre <input type="text" id="ed-tr_kicker" name="tr_kicker" maxlength="80"></label>
+              <label for="ed-tr_lede">Chapô <textarea id="ed-tr_lede" name="tr_lede" maxlength="600" style="min-height:90px"></textarea></label>
+              <label for="ed-tr_body">Contenu (Markdown) <textarea id="ed-tr_body" name="tr_body"></textarea></label>
+            </fieldset>
             <div class="toolbar">
               <button type="button" class="btn ghost" data-save="draft">Enregistrer le brouillon</button>
               <button type="button" class="btn" data-save="published">Publier</button>
@@ -96,7 +104,13 @@
             <p class="notice" id="ed-msg" role="status" hidden></p>
           </div>
           <div>
-            <p class="kicker">Aperçu</p>
+            <div class="toolbar" style="justify-content:space-between;align-items:center">
+              <p class="kicker" style="margin:0">Aperçu</p>
+              <div class="filters" role="group" aria-label="Version affichée dans l'aperçu" style="margin:0">
+                <button type="button" class="chip" data-pv="orig" aria-pressed="true" id="pv-orig">Français</button>
+                <button type="button" class="chip" data-pv="tr" aria-pressed="false" id="pv-tr">English</button>
+              </div>
+            </div>
             <div class="preview article" style="padding-block:24px">
               <p class="section-tag" id="pv-kicker"></p>
               <h1 class="article-title" id="pv-title"></h1>

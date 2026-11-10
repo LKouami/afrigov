@@ -83,6 +83,25 @@
 
   function lang() { return root.getAttribute('lang') === 'fr' ? 'fr' : 'en'; }
   function t(key) { return (I18N[lang()] && I18N[lang()][key]) || I18N.en[key] || key; }
+  // Version d'un article dans la langue du lecteur : la traduction si elle existe, sinon l'original.
+  // other : langue de l'autre version disponible, ou null.
+  function localize(a) {
+    if (!a) return a;
+    var out = {}, k;
+    for (k in a) out[k] = a[k];
+    var hasTr = !!a.tr_title;
+    if (hasTr && a.lang !== lang()) {
+      out.title = a.tr_title;
+      out.kicker = a.tr_kicker || '';
+      out.lede = a.tr_lede || '';
+      if (a.tr_body != null) out.body = a.tr_body;
+      out.lang = lang();
+      out.other = a.lang;
+    } else {
+      out.other = hasTr ? (a.lang === 'fr' ? 'en' : 'fr') : null;
+    }
+    return out;
+  }
   function category(c) { return (lang() === 'fr' ? CATEGORY_FR : CATEGORY_EN)[c] || c; }
 
   function esc(s) {
@@ -329,5 +348,6 @@
   window.AFG = {
     esc: esc, api: api, markdown: markdown, formatDate: formatDate, readingTime: readingTime,
     openConsent: openBanner, t: t, lang: lang, category: category, onLangChange: onLangChange,
+    localize: localize, setLang: setLang,
   };
 })();
